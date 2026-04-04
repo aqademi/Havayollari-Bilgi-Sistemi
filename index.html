@@ -1,276 +1,350 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="tr">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
-    span.s1 {font-kerning: none}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Havayolu Bilgi Sistemi</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM CDN -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel for JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Framer Motion -->
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                }
+            }
+        }
+    </script>
+    <style>
+        body { transition: background-color 0.3s ease, color 0.3s ease; font-family: 'Inter', sans-serif; }
+        .line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    </style>
 </head>
-<body>
-<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
-<p class="p1"><span class="s1">&lt;html lang="tr"&gt;</span></p>
-<p class="p1"><span class="s1">&lt;head&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;Havayolu Bilgi Sistemi&lt;/title&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Google Fonts --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Tailwind CSS CDN --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- React &amp; ReactDOM CDN --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Babel for JSX --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Framer Motion CDN --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"&gt;&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Lucide Icons --&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/lucide@latest"&gt;&lt;/script&gt;</span></p>
-<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tailwind.config = {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>darkMode: 'class',</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>theme: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>extend: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>fontFamily: {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>sans: ['Inter', 'sans-serif'],</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body { transition: background-color 0.3s ease, color 0.3s ease; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* Custom Scrollbar */</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar { width: 8px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar-track { background: transparent; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.dark ::-webkit-scrollbar-thumb { background: #334155; }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
-<p class="p1"><span class="s1">&lt;body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const { useState, useEffect, useMemo } = React;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const { motion, AnimatePresence } = window.Motion;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- VERİ SETİ (airlines.json içeriği buraya gömüldü) ---</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const airlinesData = [</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "TK",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Türk Hava Yolları",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0212 4441199",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "ACENTEDESTEK@THY.COM",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "İLK 12 SAAT 23:59 YİNE SON",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "CP",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "12 SAAT ÜZERİ SC INVOL REISSUE",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "Bilet kesildiği gün NS'a düşmediği sürece VOID işlemi gerçekleştirilebilmektedir."</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "XY",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Flynas",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0212 231 3450",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "GDS@nasaviation.com / istanbul@flynas.com",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "VOİDİ YOK",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "XP",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "NO-SHOWDA HİÇ Bİ İADESİ YOK – 6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR.",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "NO-SHOWDA HİÇ Bİ İADESİ YOK – 6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR. XP VE YR VERGILERI IADE EDILMEZ."</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "PC",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Pegasus",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0850 2506789",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "eticket@flypgs.com",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "VOİD SÜRESİ 1 SAAT (XML)",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "*",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "VOIDI YOKSA YOK YAZAR. BOŞSA VOİDİ VARDIR. 15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF. Uçuşa 24 saat kalana kadar aynı gün içerisinde yapılan biletlemeler için acente rezervasyonu IPTAL edilebilir."</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "LH",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Lufthansa",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0212 3755937",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "lhg.agtsupport.tr@dlh.de",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "2359 UÇUŞA 2 SAATE KADAR",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "EMD",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR)",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "XR, IST LHG AGT SUPPORT TR. 2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR). ****AÇIĞA ALINAMIYOR ASLA *** İADE BSP ÜZERİNDEN ?"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "SABRE",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "SABRE",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0850 390 1910",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "N/A",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "N/A",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "SABRE",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "N/A",</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "SABRE"</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// ... (DİĞER TÜM HAVAYOLLARI BURAYA EKLENEBİLİR) ...</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>];</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- BİLEŞENLER ---</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const CopyButton = ({ text }) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [copied, setCopied] = useState(false);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleCopy = async (e) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>e.stopPropagation();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>await navigator.clipboard.writeText(text);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setCopied(true);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; setCopied(false), 2000);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button onClick={handleCopy} className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-400 hover:text-blue-600"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{copied ? &lt;i data-lucide="check" class="w-3.5 h-3.5 text-green-500"&gt;&lt;/i&gt; : &lt;i data-lucide="copy" class="w-3.5 h-3.5"&gt;&lt;/i&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function App() {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [searchTerm, setSearchTerm] = useState('');</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [selectedAirline, setSelectedAirline] = useState(null);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [isDarkMode, setIsDarkMode] = useState(() =&gt; localStorage.getItem('theme') === 'dark');</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const root = document.documentElement;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (isDarkMode) { root.classList.add('dark'); localStorage.setItem('theme', 'dark'); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>else { root.classList.remove('dark'); localStorage.setItem('theme', 'light'); }</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>lucide.createIcons();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, [isDarkMode]);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; { lucide.createIcons(); }, [selectedAirline, searchTerm]);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const filteredAirlines = useMemo(() =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const term = searchTerm.toLowerCase().trim();</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (!term) return airlinesData;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return airlinesData.filter(a =&gt; a.name.toLowerCase().includes(term) || a.code.toLowerCase().includes(term));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, [searchTerm]);</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const renderMultiLine = (text) =&gt; {</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (!text || text === 'N/A' || text === '-') return &lt;span className="text-slate-400"&gt;-&lt;/span&gt;;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const items = text.split('/').map(i =&gt; i.trim()).filter(Boolean);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="space-y-2"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{items.map((item, idx) =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div key={idx} className="flex items-center justify-between gap-2 bg-white dark:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-700/50"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;span className="text-sm font-medium break-all"&gt;{item}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;CopyButton text={item} /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>))}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen transition-colors duration-300"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;header className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="flex items-center gap-3 w-full md:w-auto justify-between"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="flex items-center gap-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="bg-blue-600 p-2 rounded-xl text-white shadow-lg"&gt;&lt;i data-lucide="plane"&gt;&lt;/i&gt;&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;h1 className="text-xl font-bold"&gt;Havayolu Bilgi Sistemi&lt;/h1&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;p className="text-[10px] text-slate-500 uppercase tracking-widest"&gt;İletişim &amp; Void Kuralları&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button onClick={() =&gt; setIsDarkMode(!isDarkMode)} className="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{isDarkMode ? &lt;i data-lucide="sun"&gt;&lt;/i&gt; : &lt;i data-lucide="moon"&gt;&lt;/i&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="relative w-full max-w-md flex items-center gap-3"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="relative flex-1"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"&gt;&lt;/i&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="text" placeholder="Havayolu adı veya kodu..." className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) =&gt; setSearchTerm(e.target.value)} /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button onClick={() =&gt; setIsDarkMode(!isDarkMode)} className="hidden md:block p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{isDarkMode ? &lt;i data-lucide="sun"&gt;&lt;/i&gt; : &lt;i data-lucide="moon"&gt;&lt;/i&gt;}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/header&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;main className="max-w-7xl mx-auto px-4 py-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{filteredAirlines.map((airline) =&gt; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={airline.code} onClick={() =&gt; setSelectedAirline(airline)} className="cursor-pointer bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-blue-300 dark:hover:border-blue-900 transition-all"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex justify-between mb-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;span className="px-2 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-xs font-bold border border-blue-100 dark:border-blue-900/30"&gt;{airline.code}&lt;/span&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"&gt;&lt;/i&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="font-bold text-lg mb-3 line-clamp-1"&gt;{airline.name}&lt;/h3&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-2 text-xs text-slate-500"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex items-center gap-2"&gt;&lt;i data-lucide="phone" class="w-3 h-3"&gt;&lt;/i&gt; {airline.phone}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex items-center gap-2"&gt;&lt;i data-lucide="mail" class="w-3 h-3"&gt;&lt;/i&gt; {airline.email}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/motion.div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>))}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/main&gt;</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;AnimatePresence&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{selectedAirline &amp;&amp; (</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="fixed inset-0 z-50 flex items-center justify-center p-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() =&gt; setSelectedAirline(null)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" /&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="p-6 md:p-8 max-h-[85vh] overflow-y-auto"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setSelectedAirline(null)} className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"&gt;&lt;i data-lucide="x"&gt;&lt;/i&gt;&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex items-center gap-4 mb-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-blue-600 text-white px-4 py-2 rounded-2xl text-2xl font-black"&gt;{selectedAirline.code}&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h2 className="text-2xl font-black"&gt;{selectedAirline.name}&lt;/h2&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="grid md:grid-cols-2 gap-6 mb-8"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-slate-400 uppercase mb-2"&gt;TELEFON&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{renderMultiLine(selectedAirline.phone)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-slate-400 uppercase mb-2"&gt;E-POSTA&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{renderMultiLine(selectedAirline.email)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-4"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-amber-50 dark:bg-amber-900/10 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/20"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-amber-600 uppercase mb-1"&gt;VOID SÜRESİ&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-sm font-medium"&gt;{selectedAirline.void_duration}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/20"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-blue-600 uppercase mb-1"&gt;CEZA KODU&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-sm font-bold"&gt;{selectedAirline.ceza_kodu || '-'}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-[10px] font-bold text-blue-500 uppercase mb-3"&gt;INVOL &amp; NOTLAR&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-sm leading-relaxed mb-4"&gt;&lt;strong&gt;Invol:&lt;/strong&gt; {selectedAirline.invol_bilgileri}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-sm leading-relaxed"&gt;&lt;strong&gt;Not:&lt;/strong&gt; {selectedAirline.notes}&lt;/p&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end"&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setSelectedAirline(null)} className="px-8 py-2.5 bg-blue-600 text-white font-bold rounded-xl"&gt;Kapat&lt;/button&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/motion.div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>)}</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/AnimatePresence&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
-<p class="p2"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const root = ReactDOM.createRoot(document.getElementById('root'));</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>root.render(&lt;App /&gt;);</span></p>
-<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
-<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+        const { motion, AnimatePresence } = window.Motion;
+
+        const CopyButton = ({ text }) => {
+            const [copied, setCopied] = useState(false);
+            const handleCopy = async (e) => {
+                e.stopPropagation();
+                await navigator.clipboard.writeText(text);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+            return (
+                <button onClick={handleCopy} className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-400 hover:text-blue-600">
+                    {copied ? <i data-lucide="check" style={{width:'14px', height:'14px'}} className="text-green-500"></i> : <i data-lucide="copy" style={{width:'14px', height:'14px'}}></i>}
+                </button>
+            );
+        };
+
+        function App() {
+            const [searchTerm, setSearchTerm] = useState('');
+            const [selectedAirline, setSelectedAirline] = useState(null);
+            const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('theme') === 'dark');
+
+            useEffect(() => {
+                const root = document.documentElement;
+                if (isDarkMode) { root.classList.add('dark'); localStorage.setItem('theme', 'dark'); }
+                else { root.classList.remove('dark'); localStorage.setItem('theme', 'light'); }
+                setTimeout(() => lucide.createIcons(), 100);
+            }, [isDarkMode]);
+
+            useEffect(() => { setTimeout(() => lucide.createIcons(), 100); }, [selectedAirline, searchTerm]);
+
+            const filteredAirlines = useMemo(() => {
+                const term = searchTerm.toLowerCase().trim();
+                if (!term) return airlinesData;
+                return airlinesData.filter(a => a.name.toLowerCase().includes(term) || a.code.toLowerCase().includes(term));
+            }, [searchTerm]);
+
+            const renderMultiLine = (text) => {
+                if (!text || text === 'N/A' || text === '-') return <span className="text-slate-400">-</span>;
+                const items = text.split('/').map(i => i.trim()).filter(Boolean);
+                return (
+                    <div className="space-y-2">
+                        {items.map((item, idx) => (
+                            <div key={idx} className="flex items-center justify-between gap-2 bg-white dark:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-700/50">
+                                <span className="text-sm font-medium break-all">{item}</span>
+                                <CopyButton text={item} />
+                            </div>
+                        ))}
+                    </div>
+                );
+            };
+
+            return (
+                <div className="min-h-screen transition-colors duration-300">
+                    <header className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+                        <div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div className="flex items-center gap-3 w-full md:w-auto justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-blue-600 p-2 rounded-xl text-white shadow-lg"><i data-lucide="plane"></i></div>
+                                    <div>
+                                        <h1 className="text-xl font-bold">Havayolu Bilgi Sistemi</h1>
+                                        <p className="text-[10px] text-slate-500 uppercase tracking-widest">İletişim & Void Kuralları</p>
+                                    </div>
+                                </div>
+                                <button onClick={() => setIsDarkMode(!isDarkMode)} className="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800">
+                                    {isDarkMode ? <i data-lucide="sun"></i> : <i data-lucide="moon"></i>}
+                                </button>
+                            </div>
+                            <div className="relative w-full max-w-md flex items-center gap-3">
+                                <div className="relative flex-1">
+                                    <i data-lucide="search" className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"></i>
+                                    <input type="text" placeholder="Havayolu adı veya kodu..." className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+                                </div>
+                                <button onClick={() => setIsDarkMode(!isDarkMode)} className="hidden md:block p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800">
+                                    {isDarkMode ? <i data-lucide="sun"></i> : <i data-lucide="moon"></i>}
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    <main className="max-w-7xl mx-auto px-4 py-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                            {filteredAirlines.map((airline) => (
+                                <motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={airline.code} onClick={() => setSelectedAirline(airline)} className="cursor-pointer bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-blue-300 dark:hover:border-blue-900 transition-all">
+                                    <div className="flex justify-between mb-4">
+                                        <span className="px-2 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-xs font-bold border border-blue-100 dark:border-blue-900/30">{airline.code}</span>
+                                        <i data-lucide="chevron-right" className="w-4 h-4 text-slate-300"></i>
+                                    </div>
+                                    <h3 className="font-bold text-lg mb-3 line-clamp-1">{airline.name}</h3>
+                                    <div className="space-y-2 text-xs text-slate-500">
+                                        <div className="flex items-center gap-2"><i data-lucide="phone" className="w-3 h-3"></i> {airline.phone}</div>
+                                        <div className="flex items-center gap-2"><i data-lucide="mail" className="w-3 h-3"></i> {airline.email}</div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </main>
+
+                    <AnimatePresence>
+                        {selectedAirline && (
+                            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+                                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedAirline(null)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" />
+                                <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800">
+                                    <div className="p-6 md:p-8 max-h-[85vh] overflow-y-auto">
+                                        <button onClick={() => setSelectedAirline(null)} className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"><i data-lucide="x"></i></button>
+                                        <div className="flex items-center gap-4 mb-8">
+                                            <div className="bg-blue-600 text-white px-4 py-2 rounded-2xl text-2xl font-black">{selectedAirline.code}</div>
+                                            <h2 className="text-2xl font-black">{selectedAirline.name}</h2>
+                                        </div>
+                                        <div className="grid md:grid-cols-2 gap-6 mb-8">
+                                            <div className="space-y-4">
+                                                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl">
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">TELEFON</p>
+                                                    {renderMultiLine(selectedAirline.phone)}
+                                                </div>
+                                                <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl">
+                                                    <p className="text-[10px] font-bold text-slate-400 uppercase mb-2">E-POSTA</p>
+                                                    {renderMultiLine(selectedAirline.email)}
+                                                </div>
+                                            </div>
+                                            <div className="space-y-4">
+                                                <div className="bg-amber-50 dark:bg-amber-900/10 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/20">
+                                                    <p className="text-[10px] font-bold text-amber-600 uppercase mb-1">VOID SÜRESİ</p>
+                                                    <p className="text-sm font-medium">{selectedAirline.void_duration}</p>
+                                                </div>
+                                                <div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/20">
+                                                    <p className="text-[10px] font-bold text-blue-600 uppercase mb-1">CEZA KODU</p>
+                                                    <p className="text-sm font-bold">{selectedAirline.ceza_kodu || '-'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl">
+                                            <p className="text-[10px] font-bold text-blue-500 uppercase mb-3">INVOL & NOTLAR</p>
+                                            <p className="text-sm leading-relaxed mb-4"><strong>Invol:</strong> {selectedAirline.invol_bilgileri}</p>
+                                            <p className="text-sm leading-relaxed"><strong>Not:</strong> {selectedAirline.notes}</p>
+                                        </div>
+                                    </div>
+                                    <div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+                                        <button onClick={() => setSelectedAirline(null)} className="px-8 py-2.5 bg-blue-600 text-white font-bold rounded-xl">Kapat</button>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        )}
+                    </AnimatePresence>
+                </div>
+            );
+        }
+
+        const airlinesData = [
+            {"code":"TK","name":"Türk Hava Yolları","phone":"0212 4441199","email":"ACENTEDESTEK@THY.COM","void_duration":"İLK 12 SAAT 23:59 YİNE SON","ceza_kodu":"CP","invol_bilgileri":"12 SAAT ÜZERİ SC INVOL REISSUE","notes":"Bilet kesildiği gün NS'a düşmediği sürece VOID işlemi gerçekleştirilebilmektedir."},
+            {"code":"XY","name":"Flynas","phone":"0850 250 67 89 / +966 11 273 2000","email":"adsc@flynas.com / groups@flynas.com","void_duration":"23:59 (UÇUŞA 24 SAAT KALA)","ceza_kodu":"XP","invol_bilgileri":"6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR.","notes":"NO-SHOWDA HİÇ Bİ İADESİ YOK – 6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR. XP VE YR VERGILERI IADE EDILMEZ."},
+            {"code":"PC","name":"Pegasus","phone":"0850 2506789","email":"eticket@flypgs.com","void_duration":"VOİD SÜRESİ 1 SAAT (XML)","ceza_kodu":"CP","invol_bilgileri":"15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF","notes":"15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF."},
+            {"code":"XQ","name":"SunExpress","phone":"0232 4555778","email":"acentedestek@sunexpress.com","void_duration":"23.59","ceza_kodu":"CP","invol_bilgileri":"24 SAAT KALA IPTAL EDİLEBİLİR","notes":"Uçuşa 24 saat kalana kadar aynı gün içerisinde yapılan biletlemeler için acente rezervasyonu IPTAL edilebilir."},
+            {"code":"XC","name":"Corendon","phone":"444 4 737","email":"acentedestek@corendon-airlines.com","void_duration":"23.59","ceza_kodu":"DU","invol_bilgileri":"YOLCU HY YÖNLENDİRİLECEK","notes":"YOLCU HY YÖNLENDİRİLECEK."},
+            {"code":"LH","name":"Lufthansa","phone":"0212 3755937","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359 UÇUŞA 2 SAATE KADAR","ceza_kodu":"EMD","invol_bilgileri":"2.5 SAAT ÜSTÜ INVOL","notes":"2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR)."},
+            {"code":"EK","name":"Emirates","phone":"0212 3154545","email":"ekturkey@emirates.com","void_duration":"2359 UÇUŞA 3 SAATE KADAR","ceza_kodu":"OD","invol_bilgileri":"MERKEZ MUTLAKA SOR","notes":"Yolcu uçuşa katılmamış ise bilet VOID edilemez."},
+            {"code":"QR","name":"Qatar Airways","phone":"0212 296 58 88","email":"msurgun@tr.qatarairways.com","void_duration":"2359 UÇUŞA 3 SAATE KADAR","ceza_kodu":"XP","invol_bilgileri":"2 SAAT SC = 21 GÜN İLERİ GERİ","notes":"2 SAAT SC = 21 GÜN İLERİ GERİ / FULL."},
+            {"code":"EY","name":"Etihad Airways","phone":"0850 2825002","email":"mkosar@etihad.ae","void_duration":"N/A","ceza_kodu":"XP","invol_bilgileri":"30 DK ÜZERİ SC","notes":"30 dk üzeri sc"},
+            {"code":"FZ","name":"Fly Dubai","phone":"0212 543 00 53","email":"Turkey@flydubai.com","void_duration":"GÜN SONUNA KADAR","ceza_kodu":"CP","invol_bilgileri":"3 SAAT SC SONRASI ÜCRT REİSSUE REF","notes":"Uçuşa 24 saat kalana kadar aynı gün içerisinde yapılan biletlemeler için void edilebilir."},
+            {"code":"MS","name":"Egyptair","phone":"0212 231 11 26","email":"istanbul_to@egyptair.com","void_duration":"2359 UÇUŞA 4 SAATE KADAR","ceza_kodu":"EMD","invol_bilgileri":"INVOLU KENDİN YAPMA","notes":"Aynı gün uçuş değil ise yapılan voidler için sorun olmaz."},
+            {"code":"ET","name":"Ethiopian Air","phone":"0212 219 21 23","email":"Reservation1IST@ethiopianairlines.com","void_duration":"AYNI GÜN","ceza_kodu":"TTL","invol_bilgileri":"AFTER DEPARTURE YQ VE YR İADESİ YOK","notes":"AFTER DEPARTURE YQ VE YR İADESİ YOK."},
+            {"code":"WY","name":"Oman Air","phone":"0212 932 82 82","email":"reservation.IST@omanair.com","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Oman Air"},
+            {"code":"KC","name":"Air Astana","phone":"0212 343 49 60","email":"ist.sales@airastana.com","void_duration":"2359 UÇUŞTAN 3 SAAT ÖNCE","ceza_kodu":"CP","invol_bilgileri":"6 SAAT ÜZERİ SC INVOL","notes":"6 SAAT ÜZERİ SC INVOL - REF - BİZ YAPIYORUZ."},
+            {"code":"SV","name":"Saudia","phone":"0212 3369330","email":"ISTDE@saudia.com","void_duration":"2359 (UÇUŞA 4 SAAT)","ceza_kodu":"EMD","invol_bilgileri":"HAVAYOLUNA SOR","notes":"HAVAYOLUNA SOR / HAVAYOLU BASIYOR INVOLÜ DE."},
+            {"code":"J2","name":"AZAL","phone":"0212 296 35 30","email":"callcenter@azal.az","void_duration":"İLK 3 SAAT","ceza_kodu":"CP","invol_bilgileri":"NON REF BILETLERDE K3 VERGI IADESI YOK","notes":"non ref bıletlerde k3 vergı ıadesı yok."},
+            {"code":"HY","name":"Uzbekistan","phone":"0212 296 46 31","email":"bsp@travelhouse.ltd","void_duration":"1 SAAT","ceza_kodu":"OB","invol_bilgileri":"UÇUŞTAN ÖNCE DEĞİŞİKLİK","notes":"Açığa alınma uçuştan önce değişiklik yapılması ile gerçekleşmektedir."},
+            {"code":"GF","name":"Gulf Air","phone":"0212 4653303","email":"emre.tuncer@gozengsa.com","void_duration":"AYNI GÜN","ceza_kodu":"OA","invol_bilgileri":"N/A","notes":"GDS’ler arasındaki yansıma teknik durumlardan ötürü aksaklıklarla da yaşanabilir."},
+            {"code":"LO","name":"Lot Polish","phone":"0212 2311315","email":"A.Gul@lot.pl","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"INVOL BIZDE +1 -1","notes":"INVOL BIZDE +1 -1 / ENDORSMENTA UCUS KODU GİR."},
+            {"code":"DL","name":"Delta","phone":"0212 375 5779","email":"afkl.b2t.tr@websupportklm.com","void_duration":"24 SAAT","ceza_kodu":"TTL","invol_bilgileri":"5SAAT INV REISSUE","notes":"AMERİKA İÇ HAT BİLETLERİNDE HİÇ BİR VERGİ İADE EDİLMEZ."},
+            {"code":"AF","name":"Air France","phone":"0212 375 5779","email":"afkl.b2t.tr@websupportklm.com","void_duration":"24 SAAT","ceza_kodu":"TTL","invol_bilgileri":"5SAAT INV REISSUE","notes":"KLM/AF/DL ORTAK KURALLAR."},
+            {"code":"KL","name":"KLM","phone":"0212 375 5779","email":"afkl.b2t.tr@websupportklm.com","void_duration":"24 SAAT","ceza_kodu":"TTL","invol_bilgileri":"5SAAT INV REISSUE","notes":"KLM/AF/DL ORTAK KURALLAR."},
+            {"code":"UA","name":"United","phone":"0212 334 29 00","email":"united@airep.com","void_duration":"23:59","ceza_kodu":"EMD","invol_bilgileri":"2 SAAT ÜSTÜ SC WAİVER","notes":"US/AY/XY/YC/XA/XF TAXLARI AMERİKA UÇUŞLARINDA İADESİ YOK."},
+            {"code":"AA","name":"American","phone":"0212 2311315","email":"cigdeme@talaviation.com.tr","void_duration":"23.59","ceza_kodu":"CP","invol_bilgileri":"30 DK SC INVOL REISSUE","notes":"30 DK SC INVOL REISSUE – REF 2.5 SAAT."},
+            {"code":"TP","name":"TAP Air Portugal","phone":"0212 297 48 51","email":"reservationtr@aviareps.com","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"5 SAAT SC","notes":"5 SAAT SC VEYA AKTARMA KAÇARSA / 3 GÜN İLERİ GERİ."},
+            {"code":"A3","name":"Aegean","phone":"0212 2311315","email":"ticketing@talaviation.com.tr","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2 SAAT ÜSTÜ INVOL","notes":"FREE TEXT E 'SCHEDULECHANGE' NOTU EKLENMELİ."},
+            {"code":"UX","name":"Air Europa","phone":"0212 2311315","email":"ticketing@talaviation.com.tr","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Tal Aviation Ticketing."},
+            {"code":"SU","name":"Aeroflot","phone":"0212 296 6725","email":"salessupport@aeroflot.ru","void_duration":"2359","ceza_kodu":"CP","invol_bilgileri":"1 SAAT ÜSTÜ DEĞİŞİKLİK","notes":"UÇUŞA 3 SAATTEN AZ VARSA BİLETİN VERGİ İADESİ DAHİ YOKTUR."},
+            {"code":"BA","name":"British Airways","phone":"0850 2825600","email":"trade.helpdesk@ba.com","void_duration":"2359","ceza_kodu":"EMD","invol_bilgileri":"3 GÜN GERİ 14 GÜN İLERİ","notes":"NONREF ise YQ/US/XF/ZP iade yok."},
+            {"code":"IB","name":"Iberia","phone":"0850 2825002","email":"N/A","void_duration":"2359","ceza_kodu":"EMD","invol_bilgileri":"BİZ YAPIYORUZ","notes":"BİZ YAPIYORUZ."},
+            {"code":"SN","name":"Brussels","phone":"0212 3548820","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2.5 SAAT ÜSTÜ INVOL","notes":"REISSUE REVALI ONLAR YAPIYOR."},
+            {"code":"OS","name":"Austrian","phone":"0212 3548820","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2.5 SAAT ÜSTÜ INVOL","notes":"Lufthansa Group."},
+            {"code":"LX","name":"Swiss","phone":"0212 3548820","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2.5 SAAT ÜSTÜ INVOL","notes":"Lufthansa Group."},
+            {"code":"JU","name":"Air Serbia","phone":"0212 297 48 51","email":"reservationtr@aviareps.com","void_duration":"AYNI GÜN","ceza_kodu":"CP","invol_bilgileri":"8 SAAT VEYA AKTARMA KAÇIR","notes":"NON REF BİLETTE HİÇ BİR AMERİKA VERGİSİ İADE EDİLMEZ."},
+            {"code":"BT","name":"Air Baltic","phone":"N/A","email":"sales-turkey@apg-ga.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"apg bakıyor."},
+            {"code":"RO","name":"Tarom","phone":"0212 465 37 77","email":"N/A","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"5 SAAT SC VEYA UN FULL REF","notes":"TK VERDİĞİNİ KABUL ET."},
+            {"code":"FB","name":"Bulgaria Air","phone":"00359 2 4020432","email":"agencyhelpdesk@air.bg","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"INVOLDE ARA","notes":"INVOLDE ARA."},
+            {"code":"AT","name":"Royal Air Maroc","phone":"0212 241 32 63","email":"gkeskin@royalairmaroc.com","void_duration":"2359","ceza_kodu":"CP","invol_bilgileri":"4 SAAT ÜSTÜ SC","notes":"4 SAAT ÜSTÜ SC INVOL REF / REISSUE."},
+            {"code":"TU","name":"Tunisair","phone":"0212 225 88 53","email":"agences@tunisairturquie.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"2 SAAT ÜZERİ FULL İADE","notes":"30DK ÜZERİ ÜCRETSİZ DEĞİŞİKLİK."},
+            {"code":"AH","name":"Air Algerie","phone":"0212 234 71 25","email":"istanbul@airalgerie.dz","void_duration":"N/A","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Air Algerie."},
+            {"code":"KU","name":"Kuwait Airways","phone":"0850 811 81 19","email":"united@airep.com","void_duration":"2359","ceza_kodu":"TTL","invol_bilgileri":"6 SAAT NON-REF","notes":"İade işlemlerın de 6h NON-REF."},
+            {"code":"RJ","name":"Royal Jordanian","phone":"0212 3688138","email":"isttsrj@rj.com","void_duration":"N/A","ceza_kodu":"EMD","invol_bilgileri":"İADEDE CEZALI BİLE OLSA YQ DÜŞER","notes":"İADEDE CEZALI BİLE OLSA YQ DÜŞER."},
+            {"code":"ME","name":"Middle East","phone":"0212 248 22 41","email":"istanbulto@mea.aero","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Middle East Airlines."},
+            {"code":"PS","name":"Ukraine Int.","phone":"0212 465 3303","email":"uia@gozengsa.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"5 SAAT ÜZERİ","notes":"5 SAAT ÜZERİ VEYA AKTARMA KAÇIYORSA / +3 gün -3 gün."},
+            {"code":"S7","name":"S7 Airlines","phone":"00 73832223135","email":"ee@s7.ru","void_duration":"23:59","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"S7 Havayolları."},
+            {"code":"KE","name":"Korean Air","phone":"0212 465 26 50","email":"istsm@koreanair.com","void_duration":"24 SAAT","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Korean Air."},
+            {"code":"OZ","name":"Asiana","phone":"0212 2564144","email":"N/A","void_duration":"N/A","ceza_kodu":"EMD","invol_bilgileri":"AKTARMA KAÇARSA INVOL","notes":"HAVAYOLU ONAYLIYOR."},
+            {"code":"SQ","name":"Singapore","phone":"0212 463 18 00","email":"N/A","void_duration":"OB","ceza_kodu":"OB","invol_bilgileri":"N/A","notes":"Singapore."},
+            {"code":"MH","name":"Malaysia","phone":"N/A","email":"salessupport.uk@malaysiaairlines.com","void_duration":"N/A","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Malaysia."},
+            {"code":"TG","name":"Thai Airways","phone":"0212 334 29 50","email":"thai@airep.com","void_duration":"TTL","ceza_kodu":"TTL","invol_bilgileri":"YR VERİLMİYOR","notes":"NORMAL VE NO-SHOW İADE DE YR VERİLMİYOR."},
+            {"code":"VN","name":"Vietnam","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Vietnam."},
+            {"code":"CI","name":"China Airlines","phone":"0212 297 48 51","email":"reservationtr@aviareps.com","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"ONAY ALINACAK","notes":"onay/bilgi alınacak."},
+            {"code":"CZ","name":"China Southern","phone":"0212 2511315","email":"N/A","void_duration":"OB","ceza_kodu":"OB","invol_bilgileri":"N/A","notes":"China Southern."},
+            {"code":"MF","name":"Xiamen","phone":"0031 08000205888","email":"N/A","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Xiamen."},
+            {"code":"BR","name":"Eva Air","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"Eva."},
+            {"code":"UL","name":"Sri Lankan","phone":"0212 2511315","email":"N/A","void_duration":"23.59","ceza_kodu":"EMD","invol_bilgileri":"30 DK TK REISS","notes":"30 DK TK REISS – REF 2.5 SAAT."},
+            {"code":"MK","name":"Air Mauritius","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Mauritius."},
+            {"code":"SA","name":"South African","phone":"0242 330 31 06","email":"reservationtr@aviareps.com","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"UN FULL İADE","notes":"AYNI SINIFSA SEN BASIYORSUN."},
+            {"code":"KQ","name":"Kenya Airways","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"OA","invol_bilgileri":"N/A","notes":"No-Show: OD."},
+            {"code":"AC","name":"Air Canada","phone":"0212 4653303","email":"Ozge.Yilgin@aircanada.ca","void_duration":"2359","ceza_kodu":"CP","invol_bilgileri":"ONAY ALINACAK","notes":"HAVAYOLUNA SOR."},
+            {"code":"AM","name":"Aeromexico","phone":"0212 2311315","email":"Selma@peace-air.com","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Aeromexico."},
+            {"code":"AR","name":"Aerolineas","phone":"0212 2511315","email":"aerolineas@talaviation.com.tr","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Aerolineas."},
+            {"code":"AV","name":"Avianca","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"Avianca."},
+            {"code":"CM","name":"Copa","phone":"N/A","email":"service@hahnair.com","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"Copa."},
+            {"code":"LA","name":"LATAM","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Tam/JJ."},
+            {"code":"UX","name":"Air Europa","phone":"0212 2311315","email":"ticketing@talaviation.com.tr","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Tal Aviation."},
+            {"code":"AZ","name":"ITA Airways","phone":"0212 2311315","email":"azsalesaudit@ita-airways.com","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"BİZ YAPMIYORUZ","notes":"Invol reissueyu biz yapmıyoruz."},
+            {"code":"HR","name":"Hahn Air","phone":"0212 241 06 11","email":"service@hahnair.com","void_duration":"23:59","ceza_kodu":"DU","invol_bilgileri":"N/A","notes":"Hahn Air."},
+            {"code":"W1","name":"World Ticket","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"World Ticket."},
+            {"code":"9U","name":"Air Moldova","phone":"0212 4655127","email":"helpdesk@airmoldova.md","void_duration":"CP","ceza_kodu":"CP","invol_bilgileri":"20 ÜZERİ SC","notes":"7 GÜN İLERİ GERİ."},
+            {"code":"B2","name":"Belavia","phone":"N/A","email":"N/A","void_duration":"E1","ceza_kodu":"E1","invol_bilgileri":"INVOL REFDE BSP","notes":"Invol refde bsp."},
+            {"code":"YM","name":"Montenegro","phone":"382 20 228 187","email":"help.desk@mongeterairlines.com","void_duration":"AYNI GÜN","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Montenegro."},
+            {"code":"JU","name":"Air Serbia","phone":"0212 297 48 51","email":"reservationtr@aviareps.com","void_duration":"AYNI GÜN","ceza_kodu":"CP","invol_bilgileri":"8 SAAT SC","notes":"Air Serbia."},
+            {"code":"OU","name":"Croatia","phone":"N/A","email":"offline@croatiaairlines.hr","void_duration":"N/A","ceza_kodu":"DU","invol_bilgileri":"MAIL AT","notes":"MAİL AT INVOLU SOR."},
+            {"code":"JP","name":"Adria","phone":"N/A","email":"N/A","void_duration":"CP","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Adria."},
+            {"code":"OK","name":"Czech","phone":"N/A","email":"N/A","void_duration":"DU","ceza_kodu":"DU","invol_bilgileri":"N/A","notes":"Czech."},
+            {"code":"BT","name":"Air Baltic","phone":"N/A","email":"airbaltic.tr@apg-ga.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Air Baltic."},
+            {"code":"FB","name":"Bulgaria Air","phone":"00359 2 4020432","email":"agencyhelpdesk@air.bg","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"ARA","notes":"Bulgaria Air."},
+            {"code":"RO","name":"Tarom","phone":"0212 465 37 77","email":"N/A","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"5 SAAT SC","notes":"Tarom."},
+            {"code":"A3","name":"Aegean","phone":"0212 2311315","email":"a3sales@talaviation.com.tr","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2 SAAT ÜSTÜ","notes":"Aegean."},
+            {"code":"TU","name":"Tunisair","phone":"0212 225 88 53","email":"agences@tunisairturquie.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"2 SAAT ÜSTÜ","notes":"Tunisair."},
+            {"code":"AH","name":"Air Algerie","phone":"0212 234 71 25","email":"istanbul@airalgerie.dz","void_duration":"N/A","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Air Algerie."},
+            {"code":"AT","name":"Royal Air Maroc","phone":"0212 241 32 63","email":"gkeskin@royalairmaroc.com","void_duration":"2359","ceza_kodu":"CP","invol_bilgileri":"4 SAAT ÜSTÜ","notes":"Royal Air Maroc."},
+            {"code":"MS","name":"Egyptair","phone":"0212 231 11 26","email":"istanbul_to@egyptair.com","void_duration":"2359","ceza_kodu":"EMD","invol_bilgileri":"INVOLU KENDİN YAPMA","notes":"Egyptair."},
+            {"code":"ET","name":"Ethiopian","phone":"0212 219 21 23","email":"Reservation1IST@ethiopianairlines.com","void_duration":"AYNI GÜN","ceza_kodu":"TTL","invol_bilgileri":"YQ VE YR İADESİ YOK","notes":"Ethiopian."},
+            {"code":"KQ","name":"Kenya Airways","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"OA","invol_bilgileri":"N/A","notes":"Kenya Airways."},
+            {"code":"SA","name":"South African","phone":"0242 330 31 06","email":"reservationtr@aviareps.com","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"UN FULL İADE","notes":"South African."},
+            {"code":"TM","name":"LAM","phone":"N/A","email":"N/A","void_duration":"OD","ceza_kodu":"TA","invol_bilgileri":"N/A","notes":"LAM."},
+            {"code":"SW","name":"Air Namibia","phone":"N/A","email":"N/A","void_duration":"DU","ceza_kodu":"DU","invol_bilgileri":"N/A","notes":"Air Namibia."},
+            {"code":"PW","name":"Precision Air","phone":"N/A","email":"N/A","void_duration":"OA","ceza_kodu":"OA","invol_bilgileri":"N/A","notes":"Precision Air."},
+            {"code":"UL","name":"Sri Lankan","phone":"0212 2511315","email":"N/A","void_duration":"23.59","ceza_kodu":"EMD","invol_bilgileri":"30 DK TK REISS","notes":"Sri Lankan."},
+            {"code":"WY","name":"Oman Air","phone":"0212 932 82 82","email":"reservation.IST@omanair.com","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Oman Air."},
+            {"code":"GF","name":"Gulf Air","phone":"0212 4653303","email":"emre.tuncer@gozengsa.com","void_duration":"AYNI GÜN","ceza_kodu":"OA","invol_bilgileri":"N/A","notes":"Gulf Air."},
+            {"code":"KU","name":"Kuwait","phone":"0850 811 81 19","email":"united@airep.com","void_duration":"2359","ceza_kodu":"TTL","invol_bilgileri":"6 SAAT NON-REF","notes":"Kuwait Airways."},
+            {"code":"RJ","name":"Royal Jordanian","phone":"0212 3688138","email":"isttsrj@rj.com","void_duration":"N/A","ceza_kodu":"EMD","invol_bilgileri":"YQ DÜŞER","notes":"Royal Jordanian."},
+            {"code":"ME","name":"MEA","phone":"0212 248 22 41","email":"istanbulto@mea.aero","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"MEA."},
+            {"code":"EY","name":"Etihad","phone":"0850 2825002","email":"mkosar@etihad.ae","void_duration":"N/A","ceza_kodu":"XP","invol_bilgileri":"30 DK SC","notes":"Etihad."},
+            {"code":"QR","name":"Qatar","phone":"0212 296 58 88","email":"msurgun@tr.qatarairways.com","void_duration":"2359","ceza_kodu":"XP","invol_bilgileri":"2 SAAT SC","notes":"Qatar Airways."},
+            {"code":"EK","name":"Emirates","phone":"0212 3154545","email":"ekturkey@emirates.com","void_duration":"2359","ceza_kodu":"OD","invol_bilgileri":"MERKEZ SOR","notes":"Emirates."},
+            {"code":"SV","name":"Saudia","phone":"0212 3369330","email":"ISTDE@saudia.com","void_duration":"2359","ceza_kodu":"EMD","invol_bilgileri":"HAVAYOLU BASAR","notes":"Saudia."},
+            {"code":"FZ","name":"Fly Dubai","phone":"0212 543 00 53","email":"Turkey@flydubai.com","void_duration":"GÜN SONU","ceza_kodu":"CP","invol_bilgileri":"3 SAAT SC","notes":"Fly Dubai."},
+            {"code":"G9","name":"Air Arabia","phone":"0212 2415184","email":"infotr@airarabia.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Air Arabia."},
+            {"code":"3O","name":"Air Arabia Maroc","phone":"0212 241 51 84","email":"info@airarabiaturkey.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Air Arabia Maroc."},
+            {"code":"NP","name":"Nile Air","phone":"0212 465 3303","email":"nileair@gozengsa.com","void_duration":"CP","ceza_kodu":"CP","invol_bilgileri":"MAIL AT","notes":"Nile Air."},
+            {"code":"BJ","name":"Nouvelair","phone":"0021670020929","email":"booking.support@nouvelair.com.tn","void_duration":"VOID YOK","ceza_kodu":"CP","invol_bilgileri":"3 SAAT SC","notes":"Nouvelair."},
+            {"code":"XY","name":"Flynas","phone":"0850 250 67 89","email":"adsc@flynas.com","void_duration":"23:59","ceza_kodu":"XP","invol_bilgileri":"6 SAAT SC","notes":"Flynas."},
+            {"code":"J2","name":"AZAL","phone":"0212 296 35 30","email":"callcenter@azal.az","void_duration":"3 SAAT","ceza_kodu":"CP","invol_bilgileri":"K3 VERGİSİ YOK","notes":"AZAL."},
+            {"code":"KC","name":"Air Astana","phone":"0212 343 49 60","email":"ist.sales@airastana.com","void_duration":"2359","ceza_kodu":"CP","invol_bilgileri":"6 SAAT SC","notes":"Air Astana."},
+            {"code":"HY","name":"Uzbekistan","phone":"0212 296 46 31","email":"bsp@travelhouse.ltd","void_duration":"1 SAAT","ceza_kodu":"OB","invol_bilgileri":"UÇUŞTAN ÖNCE","notes":"Uzbekistan."},
+            {"code":"DV","name":"SCAT","phone":"05 356 356 658","email":"scat@scat.kz","void_duration":"CP","ceza_kodu":"CP","invol_bilgileri":"UN İSE +1-1","notes":"SCAT."},
+            {"code":"S7","name":"S7 Airlines","phone":"00 73832223135","email":"ee@s7.ru","void_duration":"23:59","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"S7."},
+            {"code":"SU","name":"Aeroflot","phone":"0212 296 6725","email":"salessupport@aeroflot.ru","void_duration":"2359","ceza_kodu":"CP","invol_bilgileri":"1 SAAT SC","notes":"Aeroflot."},
+            {"code":"R3","name":"Yakutia","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"Yakutia."},
+            {"code":"YE","name":"Yan Air","phone":"00995 32 218 08 05","email":"N/A","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"Yan Air."},
+            {"code":"PS","name":"Ukraine","phone":"0212 465 3303","email":"uia@gozengsa.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"5 SAAT SC","notes":"Ukraine."},
+            {"code":"B2","name":"Belavia","phone":"N/A","email":"N/A","void_duration":"E1","ceza_kodu":"E1","invol_bilgileri":"INVOL REFDE BSP","notes":"Belavia."},
+            {"code":"LO","name":"Lot Polish","phone":"0212 2311315","email":"A.Gul@lot.pl","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"INVOL BIZDE","notes":"Lot Polish."},
+            {"code":"OK","name":"Czech","phone":"N/A","email":"N/A","void_duration":"DU","ceza_kodu":"DU","invol_bilgileri":"N/A","notes":"Czech."},
+            {"code":"BT","name":"Air Baltic","phone":"N/A","email":"airbaltic.tr@apg-ga.com","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Air Baltic."},
+            {"code":"OU","name":"Croatia","phone":"N/A","email":"offline@croatiaairlines.hr","void_duration":"N/A","ceza_kodu":"DU","invol_bilgileri":"MAIL AT","notes":"Croatia."},
+            {"code":"JP","name":"Adria","phone":"N/A","email":"N/A","void_duration":"CP","ceza_kodu":"CP","invol_bilgileri":"N/A","notes":"Adria."},
+            {"code":"JU","name":"Air Serbia","phone":"0212 297 48 51","email":"reservationtr@aviareps.com","void_duration":"AYNI GÜN","ceza_kodu":"CP","invol_bilgileri":"8 SAAT SC","notes":"Air Serbia."},
+            {"code":"RO","name":"Tarom","phone":"0212 465 37 77","email":"N/A","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"5 SAAT SC","notes":"Tarom."},
+            {"code":"FB","name":"Bulgaria Air","phone":"00359 2 4020432","email":"agencyhelpdesk@air.bg","void_duration":"N/A","ceza_kodu":"CP","invol_bilgileri":"ARA","notes":"Bulgaria Air."},
+            {"code":"A3","name":"Aegean","phone":"0212 2311315","email":"a3sales@talaviation.com.tr","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2 SAAT ÜSTÜ","notes":"Aegean."},
+            {"code":"LH","name":"Lufthansa","phone":"0212 3755937","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359","ceza_kodu":"EMD","invol_bilgileri":"2.5 SAAT ÜSTÜ","notes":"Lufthansa."},
+            {"code":"OS","name":"Austrian","phone":"0212 3548820","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2.5 SAAT ÜSTÜ","notes":"Austrian."},
+            {"code":"LX","name":"Swiss","phone":"0212 3548820","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2.5 SAAT ÜSTÜ","notes":"Swiss."},
+            {"code":"SN","name":"Brussels","phone":"0212 3548820","email":"lhg.agtsupport.tr@dlh.de","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2.5 SAAT ÜSTÜ","notes":"Brussels."},
+            {"code":"AF","name":"Air France","phone":"0212 375 5779","email":"afkl.b2t.tr@websupportklm.com","void_duration":"24 SAAT","ceza_kodu":"TTL","invol_bilgileri":"5SAAT INV","notes":"Air France."},
+            {"code":"KL","name":"KLM","phone":"0212 375 5779","email":"afkl.b2t.tr@websupportklm.com","void_duration":"24 SAAT","ceza_kodu":"TTL","invol_bilgileri":"5SAAT INV","notes":"KLM."},
+            {"code":"DL","name":"Delta","phone":"0212 375 5779","email":"afkl.b2t.tr@websupportklm.com","void_duration":"24 SAAT","ceza_kodu":"TTL","invol_bilgileri":"5SAAT INV","notes":"Delta."},
+            {"code":"AZ","name":"ITA","phone":"0212 2311315","email":"azsalesaudit@ita-airways.com","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"BİZ YAPMIYORUZ","notes":"ITA."},
+            {"code":"IB","name":"Iberia","phone":"0850 2825002","email":"N/A","void_duration":"2359","ceza_kodu":"EMD","invol_bilgileri":"BİZ YAPIYORUZ","notes":"Iberia."},
+            {"code":"BA","name":"British","phone":"0850 2825600","email":"trade.helpdesk@ba.com","void_duration":"2359","ceza_kodu":"EMD","invol_bilgileri":"3 GÜN GERİ","notes":"British."},
+            {"code":"TP","name":"TAP","phone":"0212 297 48 51","email":"reservationtr@aviareps.com","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"5 SAAT SC","notes":"TAP Portugal."},
+            {"code":"UX","name":"Air Europa","phone":"0212 2311315","email":"ticketing@talaviation.com.tr","void_duration":"AYNI GÜN","ceza_kodu":"EMD","invol_bilgileri":"N/A","notes":"Air Europa."},
+            {"code":"A3","name":"Aegean","phone":"0212 2311315","email":"ticketing@talaviation.com.tr","void_duration":"2359","ceza_kodu":"DU","invol_bilgileri":"2 SAAT ÜSTÜ","notes":"Aegean."},
+            {"code":"EI","name":"Aer Lingus","phone":"N/A","email":"N/A","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"N/A","notes":"Aer Lingus."},
+            {"code":"FR","name":"Ryanair","phone":"0044 330 100 7838","email":"N/A","void_duration":"VOID YOK","ceza_kodu":"HAVAYOLU","invol_bilgileri":"3 SAAT SC","notes":"Ryanair."},
+            {"code":"U2","name":"Easyjet","phone":"00 44 330 365 5454","email":"N/A","void_duration":"VOID YOK","ceza_kodu":"HAVAYOLU","invol_bilgileri":"CEZA İLE","notes":"Easyjet."},
+            {"code":"VY","name":"Vueling","phone":"34902487748","email":"N/A","void_duration":"N/A","ceza_kodu":"-","invol_bilgileri":"1 SAAT SC","notes":"Vueling."},
+            {"code":"W6","name":"Wizz Air","phone":"N/A","email":"N/A","void_duration":"VOID YOK","ceza_kodu":"HAVAYOLU","invol_bilgileri":"N/A","notes":"Wizz Air."},
+            {"code":"PC","name":"Pegasus","phone":"0850 2506789","email":"eticket@flypgs.com","void_duration":"1 SAAT","ceza_kodu":"CP","invol_bilgileri":"15 DK SC","notes":"Pegasus."},
+            {"code":"XQ","name":"SunExpress","phone":"0232 4555778","email":"acentedestek@sunexpress.com","void_duration":"23.59","ceza_kodu":"CP","invol_bilgileri":"24 SAAT KALA","notes":"SunExpress."},
+            {"code":"XC","name":"Corendon","phone":"444 4 737","email":"acentedestek@corendon-airlines.com","void_duration":"23.59","ceza_kodu":"DU","invol_bilgileri":"HY YÖNLENDİR","notes":"Corendon."},
+            {"code":"TK","name":"THY","phone":"0212 4441199","email":"ACENTEDESTEK@THY.COM","void_duration":"12 SAAT","ceza_kodu":"CP","invol_bilgileri":"12 SAAT SC","notes":"THY."},
+            {"code":"SABRE","name":"SABRE DESTEK","phone":"0850 211 87 27 / 0850 211 87 28","email":"destek@sabre.com","void_duration":"N/A","ceza_kodu":"N/A","invol_bilgileri":"N/A","notes":"SABRE DESTEK HATTI."}
+        ];
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
