@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.4">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; -webkit-text-stroke: #000000; min-height: 14.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;!DOCTYPE html&gt;</span></p>
+<p class="p1"><span class="s1">&lt;html lang="tr"&gt;</span></p>
+<p class="p1"><span class="s1">&lt;head&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;title&gt;Havayolu Bilgi Sistemi&lt;/title&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Google Fonts --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.googleapis.com"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Tailwind CSS CDN --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- React &amp; ReactDOM CDN --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@18/umd/react.production.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Babel for JSX --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Framer Motion CDN --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"&gt;&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;!-- Lucide Icons --&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/lucide@latest"&gt;&lt;/script&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">    </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>tailwind.config = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>darkMode: 'class',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>theme: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>extend: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>fontFamily: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>sans: ['Inter', 'sans-serif'],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;style&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>body { transition: background-color 0.3s ease, color 0.3s ease; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.line-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>/* Custom Scrollbar */</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar { width: 8px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar-track { background: transparent; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>.dark ::-webkit-scrollbar-thumb { background: #334155; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/head&gt;</span></p>
+<p class="p1"><span class="s1">&lt;body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const { useState, useEffect, useMemo } = React;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const { motion, AnimatePresence } = window.Motion;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- VERİ SETİ (airlines.json içeriği buraya gömüldü) ---</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const airlinesData = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "TK",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Türk Hava Yolları",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0212 4441199",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "ACENTEDESTEK@THY.COM",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "İLK 12 SAAT 23:59 YİNE SON",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "CP",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "12 SAAT ÜZERİ SC INVOL REISSUE",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "Bilet kesildiği gün NS'a düşmediği sürece VOID işlemi gerçekleştirilebilmektedir."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "XY",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Flynas",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0212 231 3450",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "GDS@nasaviation.com / istanbul@flynas.com",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "VOİDİ YOK",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "XP",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "NO-SHOWDA HİÇ Bİ İADESİ YOK – 6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR.",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "NO-SHOWDA HİÇ Bİ İADESİ YOK – 6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR. XP VE YR VERGILERI IADE EDILMEZ."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "PC",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Pegasus",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0850 2506789",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "eticket@flypgs.com",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "VOİD SÜRESİ 1 SAAT (XML)",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "*",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "VOIDI YOKSA YOK YAZAR. BOŞSA VOİDİ VARDIR. 15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF. Uçuşa 24 saat kalana kadar aynı gün içerisinde yapılan biletlemeler için acente rezervasyonu IPTAL edilebilir."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "LH",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "Lufthansa",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0212 3755937",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "lhg.agtsupport.tr@dlh.de",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "2359 UÇUŞA 2 SAATE KADAR",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "EMD",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR)",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "XR, IST LHG AGT SUPPORT TR. 2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR). ****AÇIĞA ALINAMIYOR ASLA *** İADE BSP ÜZERİNDEN ?"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>{</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"code": "SABRE",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"name": "SABRE",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"phone": "0850 390 1910",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"email": "N/A",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"void_duration": "N/A",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"ceza_kodu": "SABRE",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"invol_bilgileri": "N/A",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>"notes": "SABRE"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>// ... (DİĞER TÜM HAVAYOLLARI BURAYA EKLENEBİLİR) ...</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>// --- BİLEŞENLER ---</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const CopyButton = ({ text }) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [copied, setCopied] = useState(false);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const handleCopy = async (e) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>e.stopPropagation();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>await navigator.clipboard.writeText(text);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setCopied(true);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; setCopied(false), 2000);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;button onClick={handleCopy} className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-400 hover:text-blue-600"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{copied ? &lt;i data-lucide="check" class="w-3.5 h-3.5 text-green-500"&gt;&lt;/i&gt; : &lt;i data-lucide="copy" class="w-3.5 h-3.5"&gt;&lt;/i&gt;}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>function App() {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [searchTerm, setSearchTerm] = useState('');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [selectedAirline, setSelectedAirline] = useState(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const [isDarkMode, setIsDarkMode] = useState(() =&gt; localStorage.getItem('theme') === 'dark');</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const root = document.documentElement;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (isDarkMode) { root.classList.add('dark'); localStorage.setItem('theme', 'dark'); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>else { root.classList.remove('dark'); localStorage.setItem('theme', 'light'); }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>lucide.createIcons();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, [isDarkMode]);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; { lucide.createIcons(); }, [selectedAirline, searchTerm]);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const filteredAirlines = useMemo(() =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const term = searchTerm.toLowerCase().trim();</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (!term) return airlinesData;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return airlinesData.filter(a =&gt; a.name.toLowerCase().includes(term) || a.code.toLowerCase().includes(term));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, [searchTerm]);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const renderMultiLine = (text) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (!text || text === 'N/A' || text === '-') return &lt;span className="text-slate-400"&gt;-&lt;/span&gt;;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const items = text.split('/').map(i =&gt; i.trim()).filter(Boolean);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>return (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="space-y-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{items.map((item, idx) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div key={idx} className="flex items-center justify-between gap-2 bg-white dark:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-700/50"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;span className="text-sm font-medium break-all"&gt;{item}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;CopyButton text={item} /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>return (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;div className="min-h-screen transition-colors duration-300"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;header className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="flex items-center gap-3 w-full md:w-auto justify-between"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="flex items-center gap-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="bg-blue-600 p-2 rounded-xl text-white shadow-lg"&gt;&lt;i data-lucide="plane"&gt;&lt;/i&gt;&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;h1 className="text-xl font-bold"&gt;Havayolu Bilgi Sistemi&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;p className="text-[10px] text-slate-500 uppercase tracking-widest"&gt;İletişim &amp; Void Kuralları&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button onClick={() =&gt; setIsDarkMode(!isDarkMode)} className="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{isDarkMode ? &lt;i data-lucide="sun"&gt;&lt;/i&gt; : &lt;i data-lucide="moon"&gt;&lt;/i&gt;}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="relative w-full max-w-md flex items-center gap-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="relative flex-1"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"&gt;&lt;/i&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="text" placeholder="Havayolu adı veya kodu..." className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 outline-none focus:ring-2 focus:ring-blue-500" value={searchTerm} onChange={(e) =&gt; setSearchTerm(e.target.value)} /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button onClick={() =&gt; setIsDarkMode(!isDarkMode)} className="hidden md:block p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{isDarkMode ? &lt;i data-lucide="sun"&gt;&lt;/i&gt; : &lt;i data-lucide="moon"&gt;&lt;/i&gt;}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;main className="max-w-7xl mx-auto px-4 py-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{filteredAirlines.map((airline) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;motion.div layout initial={{ opacity: 0 }} animate={{ opacity: 1 }} key={airline.code} onClick={() =&gt; setSelectedAirline(airline)} className="cursor-pointer bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-blue-300 dark:hover:border-blue-900 transition-all"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="flex justify-between mb-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;span className="px-2 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-xs font-bold border border-blue-100 dark:border-blue-900/30"&gt;{airline.code}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;i data-lucide="chevron-right" class="w-4 h-4 text-slate-300"&gt;&lt;/i&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h3 className="font-bold text-lg mb-3 line-clamp-1"&gt;{airline.name}&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-2 text-xs text-slate-500"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex items-center gap-2"&gt;&lt;i data-lucide="phone" class="w-3 h-3"&gt;&lt;/i&gt; {airline.phone}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex items-center gap-2"&gt;&lt;i data-lucide="mail" class="w-3 h-3"&gt;&lt;/i&gt; {airline.email}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/motion.div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/main&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;AnimatePresence&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{selectedAirline &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="fixed inset-0 z-50 flex items-center justify-center p-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() =&gt; setSelectedAirline(null)} className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} exit={{ scale: 0.9, opacity: 0 }} className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="p-6 md:p-8 max-h-[85vh] overflow-y-auto"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setSelectedAirline(null)} className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800"&gt;&lt;i data-lucide="x"&gt;&lt;/i&gt;&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex items-center gap-4 mb-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-blue-600 text-white px-4 py-2 rounded-2xl text-2xl font-black"&gt;{selectedAirline.code}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h2 className="text-2xl font-black"&gt;{selectedAirline.name}&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="grid md:grid-cols-2 gap-6 mb-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-slate-400 uppercase mb-2"&gt;TELEFON&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{renderMultiLine(selectedAirline.phone)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-slate-400 uppercase mb-2"&gt;E-POSTA&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{renderMultiLine(selectedAirline.email)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-amber-50 dark:bg-amber-900/10 p-4 rounded-2xl border border-amber-100 dark:border-amber-900/20"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-amber-600 uppercase mb-1"&gt;VOID SÜRESİ&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-sm font-medium"&gt;{selectedAirline.void_duration}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="bg-blue-50 dark:bg-blue-900/10 p-4 rounded-2xl border border-blue-100 dark:border-blue-900/20"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-[10px] font-bold text-blue-600 uppercase mb-1"&gt;CEZA KODU&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-sm font-bold"&gt;{selectedAirline.ceza_kodu || '-'}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-[10px] font-bold text-blue-500 uppercase mb-3"&gt;INVOL &amp; NOTLAR&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-sm leading-relaxed mb-4"&gt;&lt;strong&gt;Invol:&lt;/strong&gt; {selectedAirline.invol_bilgileri}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-sm leading-relaxed"&gt;&lt;strong&gt;Not:&lt;/strong&gt; {selectedAirline.notes}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex justify-end"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;button onClick={() =&gt; setSelectedAirline(null)} className="px-8 py-2.5 bg-blue-600 text-white font-bold rounded-xl"&gt;Kapat&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/motion.div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/AnimatePresence&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const root = ReactDOM.createRoot(document.getElementById('root'));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>root.render(&lt;App /&gt;);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/body&gt;</span></p>
+<p class="p1"><span class="s1">&lt;/html&gt;</span></p>
+</body>
+</html>
