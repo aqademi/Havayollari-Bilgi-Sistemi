@@ -1,103 +1,1344 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Havayolu Bilgi Sistemi - İletişim & Void Kuralları</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Havayolu Bilgi Sistemi</title>
   
-  <!-- Fontlar (Inter & Space Grotesk) -->
+  <!-- Tailwind CSS CDN (v3.4.15) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Fonts (Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS v4 CDN -->
-  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-  
-  <!-- React & ReactDOM (v18 Yüksek Hızlı production CDN'leri) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- React & ReactDOM CDNs -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
   
-  <!-- Babel Standalone (JSX desteklemek için) -->
+  <!-- Babel compiler to compile JSX on the fly in the browser -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
+    /* Custom thin scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #334155;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    .dark ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
     }
   </style>
+
+  <!-- Dark Mode Script to avoid flashing of light mode -->
+  <script>
+    (function() {
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+  </script>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300">
   <div id="root"></div>
 
-  <!-- React ve Uygulama Yönetimi -->
-  <script type="text/babel">
+  <!-- React JSX Application Script wrapper -->
+  <script type="text/babel" data-presets="react,stage-3">
     const { useState, useMemo, useEffect } = React;
 
-    // --- ENTEGRE SVG SİMGE BİLEŞENLERİ ---
+    // embedded full airline dataset
+    const airlinesData = [
+      {
+        "code": "TK",
+        "name": "Türk Hava Yolları",
+        "phone": "0212 4441199",
+        "email": "ACENTEDESTEK@THY.COM",
+        "void_duration": "İLK 12 SAAT 23:59 YİNE SON",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "12 SAAT ÜZERİ SC INVOL REISSUE",
+        "notes": "Bilet kesildiği gün NS'a düşmediği sürece VOID işlemi gerçekleştirilebilmektedir."
+      },
+      {
+        "code": "KK",
+        "name": "Atlas Global",
+        "phone": "0212 4632862",
+        "email": "ads@atlasglb.com",
+        "void_duration": "2359 UÇUŞA 4 SAATE KADAR",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "İÇ DIŞ HAT 15 DK SC ÜZERİNE INVOL 14 GÜN İLERİ GERİ REF REISSUE",
+        "notes": "İÇ DIŞ HAT 15 DK SC ÜZERİNE INVOL 14 GÜN İLERİ GERİ REF REISSUE"
+      },
+      {
+        "code": "8Q",
+        "name": "Onur Air",
+        "phone": "N/A",
+        "email": "bsp@onurair.com",
+        "void_duration": "23:59 (UÇUŞ 5 SAAT İÇİNDE İLK30DK / 3SAAT İÇİNDE YOK)",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Onur Air"
+      },
+      {
+        "code": "PC",
+        "name": "Pegasus",
+        "phone": "0850 2506789",
+        "email": "eticket@flypgs.com",
+        "void_duration": "VOİD SÜRESİ 1 SAAT (XML)",
+        "ceza_kodu": "*",
+        "invol_bilgileri": "15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF",
+        "notes": "VOIDI YOKSA YOK YAZAR. BOŞSA VOİDİ VARDIR. 15 DAKİKA ÜZERİ SAAT DEĞİŞİKLİĞİNDE INVOL REISSUE - REF. Uçuşa 24 saat kalana kadar aynı gün içerisinde yapılan biletlemeler için acente rezervasyonu IPTAL edilebilir."
+      },
+      {
+        "code": "XQ",
+        "name": "SunExpress",
+        "phone": "0232 4555778",
+        "email": "acentedestek@sunexpress.com",
+        "void_duration": "23.59",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "24 SAAT KALA IPTAL EDİLEBİLİR",
+        "notes": "Uçuşa 24 saat kalana kadar aynı gün içerisinde yapılan biletlemeler için acente rezervasyonu IPTAL edilebilir."
+      },
+      {
+        "code": "XC",
+        "name": "Corendon",
+        "phone": "444 4 737",
+        "email": "acentedestek@corendon-airlines.com",
+        "void_duration": "23.59",
+        "ceza_kodu": "*",
+        "invol_bilgileri": "YOLCU HY YÖNLENDİRİLECEK",
+        "notes": "YOLCU HY YÖNLENDİRİLECEK."
+      },
+      {
+        "code": "LH",
+        "name": "Lufthansa",
+        "phone": "0212 3755937",
+        "email": "lhg.agtsupport.tr@dlh.de",
+        "void_duration": "2359 UÇUŞA 2 SAATE KADAR",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR)",
+        "notes": "XR, IST LHG AGT SUPPORT TR. 2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR). ****AÇIĞA ALINAMIYOR ASLA *** İADE BSP ÜZERİNDEN ?"
+      },
+      {
+        "code": "EK",
+        "name": "Emirates",
+        "phone": "0212 3154545 / 0097 142144444",
+        "email": "ekturkey@emirates.com",
+        "void_duration": "2359 UÇUŞA 3 SAATE KADAR",
+        "ceza_kodu": "OD ( iade de OD asla iade olmaz)",
+        "invol_bilgileri": "MERKEZ MUTLAKA SOR",
+        "notes": "Yolcu uçuşa katılmamış ise bilet VOID edilemez. MERKEZ MUTLAKA SOR"
+      },
+      {
+        "code": "AA",
+        "name": "American Airlines",
+        "phone": "0212 2311315 / 0212 2511315",
+        "email": "cigdeme@talaviation.com.tr / gokces@talaviation.com.tr",
+        "void_duration": "23.59",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "30 DK SC INVOL REISSUE – REF 2.5 SAAT",
+        "notes": "Uçuş iptallerinde ücretsiz aynı booking sınıfından değişiklik yapılabilir. 30 DK SC INVOL REISSUE – REF 2.5 SAAT"
+      },
+      {
+        "code": "KE",
+        "name": "Korean Airlines",
+        "phone": "0212 465 26 50",
+        "email": "koreanair@newstravels.com.tr / istsm@koreanair.com",
+        "void_duration": "Biletin kesildiği 24 saat içinde void yapılabilir",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "OKATAN ELIF ESRA(ISTSM - OKATAN ELIF ESRA)"
+      },
+      {
+        "code": "MS",
+        "name": "Egyptair",
+        "phone": "0 212 231 11 26/27 / 02122311561",
+        "email": "istanbul_to@egyptair.com",
+        "void_duration": "2359 UÇUŞA 4 SAATE KADAR",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "INVOLU KENDİN YAPMA",
+        "notes": "Aynı gün uçuş değil ise yapılan voidler için sorun olmaz. 24 SAAT KALA NO-SHOW OLUR. INVOLU KENDİN YAPMA"
+      },
+      {
+        "code": "ET",
+        "name": "Ethiopian Air",
+        "phone": "0212 219 21 23 /// 212 231 59 19 / Ext:213 - 211",
+        "email": "supreservationist@ethiopianairlines.com / Reservation1IST@ethiopianairlines.com",
+        "void_duration": "Bilet voidleri aynı gün içinde olmalıdır",
+        "ceza_kodu": "TTL",
+        "invol_bilgileri": "AFTER DEPARTURE YQ VE YR İADESİ YOK",
+        "notes": "AFTER DEPARTURE YQ VE YR İADESİ YOK. AFTER DEPARTURE YR - YQ VERMEMEKTEDİR AMA KONTROL ET KURALLARI"
+      },
+      {
+        "code": "S7",
+        "name": "S7 Airlines / Siberia Airlines",
+        "phone": "00 73832223135",
+        "email": "ee@s7.ru / mow@s7.ru / s.shnayder@s7.ru",
+        "void_duration": "23:59 kadar void süresi mevcuttur",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "S7 Havayolları. Acil durumlar için linkten chat üzerinden rusça destek alınıyor https://www.s7.ru/en/"
+      },
+      {
+        "code": "J2",
+        "name": "Azerbaijan Hava Yolları (AZAL)",
+        "phone": "0312 4272655 / 77 / 0212 296 35 30",
+        "email": "callcenter@azal.az / antalya@azal.az",
+        "void_duration": "İLK 3 SAAT VOİDİ VAR. UÇUŞ 3 SAATTE İSE BİLET KURALI.",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "NON REF BILETLERDE K3 VERGI IADESI YOK",
+        "notes": "Fidan Hajizada (AZAL). non ref bıletlerde k3 vergı ıadesı yok. Antalya yetkilisi Sevda Hn 0544 677 5799"
+      },
+      {
+        "code": "WY",
+        "name": "Oman Air",
+        "phone": "90 212 932 82 82",
+        "email": "reservation.IST@omanair.com",
+        "void_duration": "Aynı gün içinde VOID yapabilirsiniz",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Oman Air"
+      },
+      {
+        "code": "KC",
+        "name": "Air Astana",
+        "phone": "0212 343 49 60",
+        "email": "ist.sales@airastana.com",
+        "void_duration": "2359 UÇUŞTAN 3 SAAT ÖNCE",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "6 SAAT ÜZERİ SC INVOL - REF - BİZ YAPIYORUZ",
+        "notes": "Bir bileti void edebilmek için biletin kesildiği gün içinde işlem yapılmalı. Aynı zamanda void edilen biletin pnrdaki rezervasyonunu da iptal etmeniz gerekiyor. 6 SAAT ÜZERİ SC INVOL - REF - BİZ YAPIYORUZ. US/AY/XY/YC/XA/XF TAXLARI AMERİKA UÇUŞLARINDA İADESİ YOK"
+      },
+      {
+        "code": "UX",
+        "name": "Air Europa",
+        "phone": "0212 2311315 / 0212 2511315",
+        "email": "ticketing@talaviation.com.tr / commercial.turkey@air-europa.com",
+        "void_duration": "Bünyemizdeki havayollarından UX, void e izin vermektedir",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Tal Aviation Ticketing"
+      },
+      {
+        "code": "HY",
+        "name": "Uzbekistan Airlines",
+        "phone": "0212 296 46 31",
+        "email": "bsp@travelhouse.ltd / agentshelpdesk@uzairways.com",
+        "void_duration": "OB bilet düzenlendikten sonra 1saat içerisinde void hakkı mevcuttur.",
+        "ceza_kodu": "OB",
+        "invol_bilgileri": "UÇUŞTAN ÖNCE DEĞİŞİKLİK YAPILMALI",
+        "notes": "Yeni kurallar gereği açığa alınma uçuştan önce değişiklik yapılması ile gerçekleşmektedir. Uçuşa 1 saat kala iptallerde no show kuralları olmaktadır."
+      },
+      {
+        "code": "GF",
+        "name": "Gulf Air",
+        "phone": "0212 4653303",
+        "email": "emre.tuncer@gozengsa.com",
+        "void_duration": "Biletin gün içerisinde void hakkı bulunmaktadır",
+        "ceza_kodu": "OA / NO-SHOW OB",
+        "invol_bilgileri": "OA / NO-SHOW OB GÜN İÇİNDE VOID HAKKI VAR",
+        "notes": "Emre Tuncer. OA / NO-SHOW OB gün içersinde void hakkı vardır. HAVAYOLUNDAN YAPILIYOR. GDS’ler arasındaki yansıma teknik durumlardan ötürü aksaklıklarla da yaşanabilir."
+      },
+      {
+        "code": "LO",
+        "name": "Lot Polish",
+        "phone": "0212 2311315 / 0212 251 13 15",
+        "email": "A.Gul@lot.pl / cigdeme@talaviation.com.tr",
+        "void_duration": "Raporlama süresi sonuna kadar void etmenizde bir kısıtlama bulunmamaktadır",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "INVOL BIZDE +1 -1 / ENDORSMENTA UCUS KODU GİR",
+        "notes": "Gul Alinur. INVOL BIZDE +1 -1 / ENDORSMENTA UCUS KODU GİR"
+      },
+      {
+        "code": "DL",
+        "name": "DELTA AIR",
+        "phone": "0212 375 5779",
+        "email": "afkl.b2t.tr@websupportklm.com",
+        "void_duration": "12 SAAT VOID HAKKI MEVCUT. DELTA BİLET ALINDIKTAN SONRAKİ 24 SAAT İÇERİSİNDE VOID VERİYOR, TARİH DEĞİŞSE BİLE İLK 24 SAAT İÇERİSİNDE VOID EDİLEBİLİR",
+        "ceza_kodu": "TTL",
+        "invol_bilgileri": "5SAAT INV REISSUE INF REF 1 GÜN DEĞİŞİR / INVOL REISSUE HY YAPIYOR",
+        "notes": "DELTA AIR. 5SAAT INV REISSUE INF REF 1 GÜN DEĞİŞİR / INVOL REISSUE HY YAPIYOR / İADEYİ BİZ YAPABİLİYORUZ. AMERİKA İÇ HAT BİLETLERİNDE HİÇ BİR VERGİ İADE EDİLMEZ. DIŞ HAT NON REF'TE YR VE XF İADE EDİLMEZ."
+      },
+      {
+        "code": "FZ",
+        "name": "Fly Dubai",
+        "phone": "2125430053 / 0212543 00 53",
+        "email": "Turkey@flydubai.com / fzgds@flydubai.com / turkey@flydubai.com",
+        "void_duration": "GÜN SONUNA KADAR / UÇUŞ AYNI GÜN İSE BİLET KURALI. VOID işlemi yapılamaz (son 24 saatte).",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "3 SAAT SC SONRASI ÜCRT REİSSUE REF",
+        "notes": "Uçuşa 24 saat kalana kadar aynı gün içerisinde yapılan biletlemeler için void edilebilir. 3 SAAT SC SONRASI ÜCRT REİSSUE REF / USED AÇTIRMA. GDS cezalı FZ ücret kuralları uygulaması. REISSUE yapılan biletlerde ceza tutarı varsa CP kodu ile TAX hanesinde tahsil edilir. Flex/Business: 24h kala cezasız, 24h içinde 400 AED ceza. Value: 24h kala 200 AED ceza, 24h içinde işlem yapılamaz. Refund ve REISSUE işlemleri GDS’lerde VOID edilemez."
+      },
+      {
+        "code": "QF",
+        "name": "Qantas Airways",
+        "phone": "0212 2311315 / 0212 2511315",
+        "email": "ticketing@talaviation.com.tr",
+        "void_duration": "void e izin vermektedir",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Tal Aviation Ticketing"
+      },
+      {
+        "code": "A3",
+        "name": "Aegean Airlines",
+        "phone": "0212 2311315",
+        "email": "ticketing@talaviation.com.tr / a3sales@talaviation.com.tr",
+        "void_duration": "2359 UÇUŞA 3 SAATE KADAR",
+        "ceza_kodu": "DU - No-Show DV",
+        "invol_bilgileri": "2 SAAT VE ÜZERİ INVOLLERDE İŞLEMLERİ BİZ YAPIYORUZ",
+        "notes": "GDS üzerinden yapılan rezervasyonlarda sadece P-U-T-S sınıflarına VOID hakkı tanınmamaktadır. 2 SAAT VE ÜZERİ INVOLLERDE İŞLEMLERİ BİZ YAPIYORUZ AMA FREE TEXT E 'SCHEDULECHANGE' NOT U KESİNLİKLE EKLEMEMİZ GEREKİYOR. AİR CANADA İADE EDİLMEYEN - EDİLEN TAXLAR."
+      },
+      {
+        "code": "QR",
+        "name": "Qatar Airways",
+        "phone": "0212 296 58 88",
+        "email": "msurgun@tr.qatarairways.com / tradesupportSEU@eu.qatarairways.com",
+        "void_duration": "2359 UÇUŞA 3 SAATE KADAR. bileti düzenleme tarihi ile aynı gün içersinde void edilebilir.",
+        "ceza_kodu": "XP",
+        "invol_bilgileri": "2 SAAT SC = 21 GÜN İLERİ GERİ / FULL",
+        "notes": "2 SAAT SC = 21 GÜN İLERİ GERİ / FULL (REISSUE REVALI ONLAR YAPIYOR). QATARDA BİLET NON REF DEĞİLSE VE CEZASI KOLTUK FİYATINDAN YÜKSEKSE TÜM VERGİLERİ İADE ALMA HAKKI VAR!"
+      },
+      {
+        "code": "ME",
+        "name": "Middle East Airlines",
+        "phone": "0212 2311315 / 0212 248 22 41",
+        "email": "sandern@mea.aero / istanbulto@mea.aero / koyunoglui@mea.aero",
+        "void_duration": "Biletleme ile aynı gün void işlemi gerçekleştirebilirsiniz",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Middle East Airlines"
+      },
+      {
+        "code": "AM",
+        "name": "Aeromexico",
+        "phone": "0212 2311315",
+        "email": "ameuropess@aeromexico.com / Selma@peace-air.com",
+        "void_duration": "Biletin kesildiği aynı gün içerisinde 23:59'a kadar Void işlemi yapılabilir",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Selma"
+      },
+      {
+        "code": "AZ",
+        "name": "ITA Airways / Alitalia",
+        "phone": "0212 2311315 / 00 39 06 65649",
+        "email": "azsalesaudit@ita-airways.com / george.athanassiou@alitalia.com",
+        "void_duration": "Aynı gün void yapılabilir",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "INVOL REISSUEYU BİZ YAPMIYORUZ",
+        "notes": "ITA Airways. Invol reissueyu biz yapmıyoruz."
+      },
+      {
+        "code": "FR",
+        "name": "Ryanair",
+        "phone": "0044 330 100 7838",
+        "email": "N/A",
+        "void_duration": "HAVAYOLUNDAN SATIŞTAN SONRA HİÇ BİR İADESİ YOK",
+        "ceza_kodu": "HAVAYOLUNDAN",
+        "invol_bilgileri": "3 SAAT ÜZERİ FULL İADE DEĞİŞİKLİK",
+        "notes": "3 saat üzeri full iade değişiklik / Havayolundan."
+      },
+      {
+        "code": "U2",
+        "name": "Easyjet",
+        "phone": "00 44 330 365 5454",
+        "email": "N/A",
+        "void_duration": "HAVAYOLUNDAN VOİD YOK CEZA İLE VAR 24 SAATTE",
+        "ceza_kodu": "HAVAYOLUNDAN",
+        "invol_bilgileri": "CEZA İLE 24 SAATTE İADE",
+        "notes": "Easyjet"
+      },
+      {
+        "code": "TP",
+        "name": "Tap Portugal",
+        "phone": "0212 297 48 51 / 52",
+        "email": "reservationtr@aviareps.com",
+        "void_duration": "2359 ( UÇUŞ AYNI GÜNSE İLK 1 SAAT)",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "5 SAAT SC VEYA AKTARMA KAÇARSA / 3 GÜN İLERİ GERİ",
+        "notes": "5 SAAT SC VEYA AKTARMA KAÇARSA / PARKUR DEĞİŞMEZ – 3 GÜN İLERİ GERİ – İADEDE SOR / BSP ÜZERİNDEN İADE DE ALINABİLİR."
+      },
+      {
+        "code": "AC",
+        "name": "Air Canada",
+        "phone": "2124653303",
+        "email": "Ozge.Yilgin@aircanada.ca",
+        "void_duration": "2359 (UÇUŞA 5 SAAT)",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "ONAY ALDIKTAN SONRA ACENTE YAPAR",
+        "notes": "ONAY ALDIKTAN SONRA ACENTE YAPAR HAVAYOLUNA SOR"
+      },
+      {
+        "code": "OU",
+        "name": "Croatia Airlines",
+        "phone": "N/A",
+        "email": "offline@croatiaairlines.hr",
+        "void_duration": "N/A",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "MAİL AT INVOLU SOR",
+        "notes": "MAİL AT INVOLU SOR"
+      },
+      {
+        "code": "TU",
+        "name": "Tunisair",
+        "phone": "0212 225 88 53",
+        "email": "agences@tunisairturquie.com / resaonline@tunisair.com.tn / faycal.benamara@tunisairturquie.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "30DK ÜZERİ ÜCRETSİZ DEĞİŞİKLİK / 2 SAAT ÜZERİ FULL İADE",
+        "notes": "30DK ÜZERİ ÜCRETSİZ DEĞ HK / HAVAYOLUNDAN YAPILIYOR MAX 1 GÜN İLERİ GERİ / 2 SAAT ÜZERİ FULL İADE BSP. ORTAK VERGİLERE DİKKAT ET - ALMANYA -RA-"
+      },
+      {
+        "code": "FB",
+        "name": "Bulgaria Air",
+        "phone": "00359 2 4020432",
+        "email": "agencyhelpdesk@air.bg",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "INVOLDE ARA",
+        "notes": "INVOLDE ARA"
+      },
+      {
+        "code": "KQ",
+        "name": "Kenya Airways",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "OA, No-Show: OD",
+        "invol_bilgileri": "OA, No-Show: OD",
+        "notes": "OA, No-Show: OD"
+      },
+      {
+        "code": "PS",
+        "name": "Ukraine International Airlines",
+        "phone": "0212 465 3303 / 00380 44 581 5050",
+        "email": "uia@gozengsa.com / pshelpdesk@flyuia.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "5 SAAT ÜZERİ VEYA AKTARMA KAÇIYORSA / +3 GÜN -3 GÜN",
+        "notes": "BIZ YAPIYORUZ / 5 SAAT ÜZERİ VEYA AKTARMA KAÇIYORSA / +3 gün -3 gün"
+      },
+      {
+        "code": "UL",
+        "name": "Sri Lankan Airlines",
+        "phone": "0212 2511315",
+        "email": "N/A",
+        "void_duration": "23.59",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "30 DK TK REISS – REF 2.5 SAAT",
+        "notes": "30 DK TK REISS – REF 2.5 SAAT. - SORSAN İYİ"
+      },
+      {
+        "code": "AD",
+        "name": "Azul Linhas Aereas Brasileiras",
+        "phone": "0212 297 48 51 / 52",
+        "email": "reservationtr@aviareps.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "XP",
+        "invol_bilgileri": "N/A",
+        "notes": "Azul"
+      },
+      {
+        "code": "EY",
+        "name": "Etihad Airways",
+        "phone": "0850 2825002",
+        "email": "mkosar@etihad.ae / kdogancay@etihad.ae / EtihadRefunds@etihad.ae",
+        "void_duration": "N/A",
+        "ceza_kodu": "XP",
+        "invol_bilgileri": "30 DK ÜZERİ SC",
+        "notes": "30 dk üzeri sc"
+      },
+      {
+        "code": "KM",
+        "name": "Air Malta",
+        "phone": "N/A",
+        "email": "kmsales@airmalta.com.mt",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Air Malta. ROYAL JORDAN / CEZALI İADE BİLE OLSA YQ İADE EDİLMEZ"
+      },
+      {
+        "code": "OZ",
+        "name": "Asiana Airlines",
+        "phone": "(+90) 212 2564144",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "AKTARMA KAÇARSA INVOL / HAVAYOLU ONAYLIYOR",
+        "notes": "AKTARMA KAÇARSA INVOL (+90) 212 2564144 / HAVAYOLU ONAYLIYOR"
+      },
+      {
+        "code": "UA",
+        "name": "United Airlines",
+        "phone": "0 212 334 29 00",
+        "email": "groups@airep.com / united@airep.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "2 SAAT ÜSTÜ SC WAİVER / 2 SAAT ALTI EWR YETERLİ",
+        "notes": "2 ÜSTÜ SC OLURSA WAİVER ALIYORUZ REISSUE VE REFUNDDA / 2 SAAT ALTINDA EWR YETERLİ. US/AY/XY/YC/XA/XF TAXLARI AMERİKA UÇUŞLARINDA İADESİ YOK"
+      },
+      {
+        "code": "AH",
+        "name": "Air Algerie",
+        "phone": "0212 234 71 25",
+        "email": "istanbul@airalgerie.dz",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Air Algerie"
+      },
+      {
+        "code": "KU",
+        "name": "Kuwait Airways",
+        "phone": "8508118119",
+        "email": "united@airep.com / groups@airep.com",
+        "void_duration": "TTL 2359 (UÇUŞA 2 SAATE KADAR)",
+        "ceza_kodu": "TTL",
+        "invol_bilgileri": "6 SAAT NON-REF",
+        "notes": "NO-SHOW OLMAYAN BİLETLER İÇİN ( İade işlemlerın de 6h NON-REF)"
+      },
+      {
+        "code": "AT",
+        "name": "Royal Air Maroc",
+        "phone": "0212 241 32 63/64/65",
+        "email": "gkeskin@royalairmaroc.com / fgokgunduz@royalairmaroc.com",
+        "void_duration": "CP 2359 / 24 SAATTEN FAZLA VARSA",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "4 SAAT ÜSTÜ SC INVOL REF / REISSUE",
+        "notes": "4 SAAT ÜSTÜ SC INVOL REF / REISSUE - 0212 465 65 52 HAVALİMANI OFİS"
+      },
+      {
+        "code": "RO",
+        "name": "Tarom",
+        "phone": "0212 465 37 77",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "5 SAAT SC VEYA UN FULL REF",
+        "notes": "5 SAAT SC VEYA UN FULL REF / TK VERDİĞİNİ KABUL ET ETMEZSE ARA"
+      },
+      {
+        "code": "AR",
+        "name": "Aerolineas Argentinas",
+        "phone": "0212 2511315",
+        "email": "aerolineas@talaviation.com.tr",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Aerolineas"
+      },
+      {
+        "code": "LN",
+        "name": "Libyan Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "TTL",
+        "ceza_kodu": "TTL",
+        "invol_bilgileri": "N/A",
+        "notes": "Libyan"
+      },
+      {
+        "code": "RJ",
+        "name": "Royal Jordanian",
+        "phone": "0212 3688138",
+        "email": "isttsrj@rj.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "İADEDE CEZALI BİLE OLSA YQ DÜŞER",
+        "notes": "İADEDE CEZALI BİLE OLSA YQ DÜŞER"
+      },
+      {
+        "code": "G3",
+        "name": "VRG Linhas Aereas",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "VRG"
+      },
+      {
+        "code": "IB",
+        "name": "Iberia",
+        "phone": "0850 2825002",
+        "email": "N/A",
+        "void_duration": "2359 UÇUŞA 3 SAATE KADAR",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "BİZ YAPIYORUZ",
+        "notes": "BİZ YAPIYORUZ"
+      },
+      {
+        "code": "SU",
+        "name": "Aeroflot",
+        "phone": "Istanbul Office: +90 212 296 6725 / 26 / 27 Sales Support: 0 811 213 00 61",
+        "email": "salessupport@aeroflot.ru",
+        "void_duration": "2359 - UÇUŞ 48 SAATTEYSE İLK 1 SAATTE VOİD EDILEBILIR AKSI TAKTIRDE VOID ETMEYIN / KALANI 2359",
+        "ceza_kodu": "CP – NOSHOWDA İADE / DEĞ YOK",
+        "invol_bilgileri": "1 SAAT ÜSTÜ DEĞİŞİKLİKTE FULL İADE VEYA 1 GÜN İLERİ/GERİ",
+        "notes": "AEROFLOT 1 VE ÜZERİ SAAT DEĞİŞİKLİKLERİNDE FULL İADE YA DA 1 GÜN İLERİ YA DA GERİ DEĞŞ HAKKI VERİYOR, UÇUŞ NUMARASI DEĞİŞMİYORSA TK'YI EWR LEMEK YETERLİ BİLET BASMAYA GEREK YOK. ÇOCUK YOLCUNUN VERGİLERİ BAZI PARKURLARDA YETİŞİNE GÖRE DÜŞEBİLİR. UÇUŞA 3 SAATTEN AZ VARSA BİLETİN VERGİ İADESİ DAHİ YOKTUR."
+      },
+      {
+        "code": "SA",
+        "name": "South African Airways",
+        "phone": "+90 242 330 31 06 / 34 77",
+        "email": "reservationtr@aviareps.com",
+        "void_duration": "2359 ( UÇUŞ AYNI GÜNSE İLK 1 SAAT)",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "UN FULL İADE / AYNI SINIFSA SEN BASIYORSUN",
+        "notes": "UN FULL İADE / INVOLDE AYNI SINIFSA SEN BASIYORUN ÜST SINIFSA VEYA PARKUR DEĞİŞECEKSE MAIL"
+      },
+      {
+        "code": "BA",
+        "name": "British Airways",
+        "phone": "0850 2825600",
+        "email": "trade.helpdesk@ba.com / emil.delibashev@ba.com",
+        "void_duration": "2359 UÇUŞA 3 SAATE KADAR",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "3 GÜN GERİ 14 GÜN İLERİ / KENDİN YAPIYORSUN",
+        "notes": "3 gün geri 14 gün ileri – kısa uçuşlarda 2 saat - uzun 5 saat sc (KENDİN YAPIYORSUN). British Airways'de Bilet NONREF ise YQ/US/XF/ZP iade yok."
+      },
+      {
+        "code": "HR",
+        "name": "Hahn Air",
+        "phone": "0212 241 06 11",
+        "email": "hahnair@newstravels.com.tr / service@hahnair.com",
+        "void_duration": "AYNI GÜN İÇERİSİNDE 23:59' A KADARDIR - EĞER BİLET CHECK-IN DE DEĞİL İSE UÇUŞTAN 3 SAAT ÖNCESİNE KADAR VOID EDİLEBİLİR",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "N/A",
+        "notes": "Hahn Air"
+      },
+      {
+        "code": "SN",
+        "name": "Brussels Airlines",
+        "phone": "0212 3548820",
+        "email": "lhg.agtsupport.tr@dlh.de",
+        "void_duration": "2359 UÇUŞA 2 SAATE KADAR",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR)",
+        "notes": "2.5 SAAT ÜSTÜ INVOL (REISSUE REVALI ONLAR YAPIYOR)"
+      },
+      {
+        "code": "SQ",
+        "name": "Singapore Airlines",
+        "phone": "0212 463 18 00",
+        "email": "N/A",
+        "void_duration": "OB",
+        "ceza_kodu": "OB",
+        "invol_bilgileri": "N/A",
+        "notes": "Singapore"
+      },
+      {
+        "code": "Z6",
+        "name": "Dniproavia",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Dniproavia"
+      },
+      {
+        "code": "B2",
+        "name": "Belavia",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "E1",
+        "ceza_kodu": "E1",
+        "invol_bilgileri": "INVOL REFDE BSP",
+        "notes": "Invol refde bsp"
+      },
+      {
+        "code": "IZ",
+        "name": "Arkia - Israeli Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "OA",
+        "ceza_kodu": "OA",
+        "invol_bilgileri": "N/A",
+        "notes": "Arkia"
+      },
+      {
+        "code": "SV",
+        "name": "Saudi Arabian",
+        "phone": "0212 3369330",
+        "email": "svturgroup-sales@saudia.com / duaktulgali@saudia.com / ibesupport@saudia.com / sozturk@saudia.com / ISTDE@saudia.com",
+        "void_duration": "2359 (UÇUŞA 4 SAAT VARSA İLK 1 SAAT)",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "HAVAYOLUNA SOR / HAVAYOLU BASIYOR",
+        "notes": "HAVAYOLUNA SOR / HAVAYOLU BASIYOR INVOLÜ DE. Names must be between 2 to 59 letters."
+      },
+      {
+        "code": "DE",
+        "name": "Condor Flugdiensten",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "4 SAAT SC INVOL REF REISSUE ACENTE YAPAR",
+        "notes": "4 SAAT SC INVOL REF REISSUE ACENTE YAPAR"
+      },
+      {
+        "code": "JU",
+        "name": "Air Serbia",
+        "phone": "0212 297 48 51 / 52",
+        "email": "reservationtr@aviareps.com",
+        "void_duration": "VOID HAKKI YOK",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "SORARAK GİDİLMESİ LAZIM",
+        "notes": "İADESİ YOK"
+      },
+      {
+        "code": "NP",
+        "name": "Nile Air",
+        "phone": "0212 465 3303",
+        "email": "nileair@gozengsa.com / csu@nileair.com",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "INVOL İÇİN MAIL AT / REVALİ ONLAR YAPAR",
+        "notes": "INVOL İÇİN MAIL AT REVALİ ONALAR YAPAR REF İÇİN ONAY AL. E3 VERGİSİ KESİLİR."
+      },
+      {
+        "code": "TG",
+        "name": "Thai Airways International",
+        "phone": "0212 334 29 50",
+        "email": "thai@airep.com",
+        "void_duration": "TTL",
+        "ceza_kodu": "TTL",
+        "invol_bilgileri": "NORMAL VE NO-SHOW İADE DE YR VERİLMİYOR",
+        "notes": "NORMAL VE NO-SHOW İADE DE YR VERİLMİYOR / E7-G8-M6-TR-YQ VERİLMİYOR"
+      },
+      {
+        "code": "CI",
+        "name": "China Airlines",
+        "phone": "0212 297 48 51 / 52",
+        "email": "reservationtr@aviareps.com / info.nl@china-airlines.com",
+        "void_duration": "2359 ( UÇUŞ AYNI GÜNSE İLK 1 SAAT)",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "ONAY/BİLGİ ALINACAK",
+        "notes": "onay/bilgi alınacak"
+      },
+      {
+        "code": "SW",
+        "name": "Air Namibia",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "DU",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "N/A",
+        "notes": "Namibia"
+      },
+      {
+        "code": "CX",
+        "name": "Cathay Pacific Airways",
+        "phone": "0212 219 21 23",
+        "email": "gsa_support_europe@cathaypasific.com",
+        "void_duration": "EMD",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Cathay"
+      },
+      {
+        "code": "JP",
+        "name": "Adria Airways",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Adria"
+      },
+      {
+        "code": "9U",
+        "name": "Air Moldova",
+        "phone": "2124655127",
+        "email": "helpdesk@airmoldova.md",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "20 ÜZERİ SC INVOL REISSUE / 7 GÜN İLERİ GERİ",
+        "notes": "20 ÜZERİ SC INVOL REISSUE / 7 GÜN İLERİ GERİ / REF"
+      },
+      {
+        "code": "NX",
+        "name": "Air Macau",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "AD",
+        "ceza_kodu": "AD",
+        "invol_bilgileri": "INVOLU KENDİN YAP",
+        "notes": "INVOLU KENDİN YAP"
+      },
+      {
+        "code": "DV",
+        "name": "JSC SCAT AIR COMPANY",
+        "phone": "05 356 356 658",
+        "email": "scat@scat.kz",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "UN İSE +1-1 ENDORSMENT",
+        "notes": "AIRCOMPANY SCAT TKLI İSE YERİ EWR YAP EKRAN GÖRÜNTÜSÜ AL UN İSE +1-1 END. INF BOOKING DUE TO SC/UN FLIGHT NUM. NOTUNU MUHAKKAK DÜŞÜYORUZ. XP VE YR VERGILERI IADE EDILMEZ. KAZAK UÇUŞU İSE VE YOLCU ÖZBEK VATANDAŞI İSE MUHAKKAK TEK YÖN BİLETİ KABUL ETMIYORLAR."
+      },
+      {
+        "code": "OK",
+        "name": "Czech Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "DU",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "N/A",
+        "notes": "Czech"
+      },
+      {
+        "code": "TM",
+        "name": "Lam Linhas Aereas de Moçambique",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "No-Show: OD",
+        "ceza_kodu": "TA – No-Show: OD",
+        "invol_bilgileri": "N/A",
+        "notes": "Lam"
+      },
+      {
+        "code": "CZ",
+        "name": "China Southern Airlines",
+        "phone": "0212 2511315",
+        "email": "N/A",
+        "void_duration": "OB",
+        "ceza_kodu": "OB",
+        "invol_bilgileri": "N/A",
+        "notes": "China Southern"
+      },
+      {
+        "code": "MT",
+        "name": "Thomas Cook",
+        "phone": "00441733 224 330 / 0044 2037524982",
+        "email": "N/A",
+        "void_duration": "DU İLK 2 SAAT VOİD",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "4 SAAT ÜSTÜ ÜCRETSİZ DEĞİŞİKLİK VE FULL İADE",
+        "notes": "4 SAATİN ÜZERİNDEKİ SAAT DEĞİŞİKLİKLERİNDE ÜCRETSİZ DEĞŞ VE FULL İADE HAKKI VAR"
+      },
+      {
+        "code": "7R",
+        "name": "Russline Airline",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "INVOL 1 AY İLERİ GERİ",
+        "notes": "INVOL 1 AY İLERİ GERİ"
+      },
+      {
+        "code": "AV",
+        "name": "Avianca",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "HAHN AIRE CIPLI BİLET NO 169 İLE BAŞLIYORSA AYNI GÜN 23:59' A KADAR VOID EDİLEBİLİR"
+      },
+      {
+        "code": "CM",
+        "name": "Copa Airlines",
+        "phone": "N/A",
+        "email": "service@hahnair.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Copa"
+      },
+      {
+        "code": "HA",
+        "name": "Hawaiian Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Hawaiian"
+      },
+      {
+        "code": "VY",
+        "name": "Vueling Airlines",
+        "phone": "34902487748",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "1 SAAT SC INVOL REF / +15-15 INVOL REISSUE",
+        "notes": "1 SAAT SC INVOL REF / +15-15 INVOL REISSUE"
+      },
+      {
+        "code": "PW",
+        "name": "Precision Air Services",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "OA",
+        "ceza_kodu": "OA",
+        "invol_bilgileri": "N/A",
+        "notes": "Precision"
+      },
+      {
+        "code": "UT",
+        "name": "Sky Prime Charter",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Sky Prime"
+      },
+      {
+        "code": "GP",
+        "name": "APG Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "APG"
+      },
+      {
+        "code": "GA",
+        "name": "Garuda Indonesia",
+        "phone": "00 62 21 23519999",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Garuda"
+      },
+      {
+        "code": "W2",
+        "name": "Flexflight",
+        "phone": "0045 39563955",
+        "email": "N/A",
+        "void_duration": "APS",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Flexflight"
+      },
+      {
+        "code": "R3",
+        "name": "Yakutia",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Yakutia"
+      },
+      {
+        "code": "BR",
+        "name": "Eva Airways",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Eva"
+      },
+      {
+        "code": "MH",
+        "name": "Malaysia Airlines",
+        "phone": "N/A",
+        "email": "salessupport.uk@malaysiaairlines.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Malaysia"
+      },
+      {
+        "code": "2J",
+        "name": "Air Burkina",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Air Burkina"
+      },
+      {
+        "code": "LY",
+        "name": "El Al Israel Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "El Al"
+      },
+      {
+        "code": "YE",
+        "name": "Yan Air",
+        "phone": "00995 32 218 08 05",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "-",
+        "invol_bilgileri": "N/A",
+        "notes": "Yan Air"
+      },
+      {
+        "code": "YM",
+        "name": "Montenegro Airlines",
+        "phone": "382 20 228 187",
+        "email": "help.desk@mongeterairlines.com",
+        "void_duration": "CP AYNI GUN İÇERİSİNDE",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Montenegro"
+      },
+      {
+        "code": "BE",
+        "name": "Flybe Limited",
+        "phone": "00 44 20 7308 0812",
+        "email": "N/A",
+        "void_duration": "23.59",
+        "ceza_kodu": "23.59",
+        "invol_bilgileri": "N/A",
+        "notes": "Flybe"
+      },
+      {
+        "code": "MF",
+        "name": "Xiamen Airlines",
+        "phone": "0031 08000205888",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Xiamen"
+      },
+      {
+        "code": "MK",
+        "name": "Air Mauritius",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Mauritius"
+      },
+      {
+        "code": "9W",
+        "name": "Jet Airways",
+        "phone": "0212 2511315",
+        "email": "turkeygsa@jetairways.com",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Jet Airways"
+      },
+      {
+        "code": "JJ",
+        "name": "Tam Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Tam"
+      },
+      {
+        "code": "NH",
+        "name": "All Nippon Airways",
+        "phone": "N/A",
+        "email": "salessupport@fly-ana.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "All Nippon"
+      },
+      {
+        "code": "OM",
+        "name": "Mongolian Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Mongolian"
+      },
+      {
+        "code": "EQ",
+        "name": "Tame Linea Aerea del Ecuador",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Tame"
+      },
+      {
+        "code": "TS",
+        "name": "Air Transat",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Air Transat"
+      },
+      {
+        "code": "VN",
+        "name": "Vietnam Airlines",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Vietnam"
+      },
+      {
+        "code": "3K",
+        "name": "Jetstar Asia",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "VOID YOK",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "CEZALI İADEDE VERGİ İADESİ YOK",
+        "notes": "CEZALI IADEDE CEZA KOLTUK UCRETINDEN YUKSEK ISE VERGI IADESI DAHI YOK"
+      },
+      {
+        "code": "3O",
+        "name": "Air Arabia Maroc",
+        "phone": "0212 241 51 84",
+        "email": "info@airarabiaturkey.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Air Arabia Maroc"
+      },
+      {
+        "code": "BJ",
+        "name": "Nouvelair",
+        "phone": "00331 87 64 10 00 / 0021670020929",
+        "email": "booking.support@nouvelair.com.tn / revenue.accounting@nouvelair.com.tn",
+        "void_duration": "VOID YOK",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "3 SAAT ÜSTÜ SAAT DEĞİŞİKLİĞİNDE FULL İADE",
+        "notes": "3 SAATİN ÜZERİNDE YAPILAN SAAT DEĞ,ŞİKLİĞİNDE FULL İADE YA DA ÜCRETSİZ DEĞŞ HAKKI VAR*FAKAT DEĞİŞİKLİK SADECE EN YAKIN UÇUŞA YAPILABİLİR! FARKLI BİR UÇUŞA İSTERSE BİLET KURALLARI GEÇERLİ *DEĞİŞİKLİĞİ BİZ YAPABİLİYORUZ*VOID YOK"
+      },
+      {
+        "code": "G9",
+        "name": "Air Arabia",
+        "phone": "(0212) 2415184",
+        "email": "infotr@airarabia.com / cozdemir@airarabia.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Air Arabia"
+      },
+      {
+        "code": "BT",
+        "name": "Air Baltic",
+        "phone": "N/A",
+        "email": "sales-turkey@apg-ga.com / b.gencalioglu@apg-ga.com / airbaltic.tr@apg-ga.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Air Baltic. apg bakıyor iletişim adresi // sales-turkey@apg-ga.com"
+      },
+      {
+        "code": "3F",
+        "name": "Flyone",
+        "phone": "N/A",
+        "email": "b2b@flyone.md",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "HANH AİR BAKIYOR",
+        "notes": "HANH AİR BAKIYOR 169 başlarsa hanh air bakar. b2b@flyone.md"
+      },
+      {
+        "code": "FI",
+        "name": "Icelandair",
+        "phone": "N/A",
+        "email": "N/A",
+        "void_duration": "DU",
+        "ceza_kodu": "DU",
+        "invol_bilgileri": "N/A",
+        "notes": "Icelandair"
+      },
+      {
+        "code": "R5",
+        "name": "Jordan Aviation",
+        "phone": "N/A",
+        "email": "callcenter@jordanaviation.jo / info@jordanaviation.jo",
+        "void_duration": "CP",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Jordan Aviation"
+      },
+      {
+        "code": "4O",
+        "name": "Air Montenegro",
+        "phone": "N/A",
+        "email": "ticket@talaviation.com.tr",
+        "void_duration": "void e izin vermektedir",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Tal Aviation Ticketing"
+      },
+      {
+        "code": "5O",
+        "name": "ASL France",
+        "phone": "N/A",
+        "email": "ticket@talaviation.com.tr",
+        "void_duration": "void e izin vermektedir",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Tal Aviation Ticketing"
+      },
+      {
+        "code": "5J",
+        "name": "Cebu Pacific",
+        "phone": "N/A",
+        "email": "ticket@talaviation.com.tr",
+        "void_duration": "void e izin vermektedir",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "Tal Aviation Ticketing"
+      },
+      {
+        "code": "OD",
+        "name": "Malindo Air (APG)",
+        "phone": "N/A",
+        "email": "sales-turkey@apg-ga.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "CP",
+        "invol_bilgileri": "N/A",
+        "notes": "APG"
+      },
+      {
+        "code": "KL",
+        "name": "KLM Royal Dutch Airlines",
+        "phone": "0212 315 83 00",
+        "email": "afkl.b2t.tr@websupportklm.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "KLM"
+      },
+      {
+        "code": "AF",
+        "name": "Air France",
+        "phone": "0212 315 83 00",
+        "email": "afkl.b2t.tr@websupportklm.com",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Air France"
+      },
+      {
+        "code": "LX",
+        "name": "Swiss International Air Lines",
+        "phone": "0212 354 88 00",
+        "email": "lhg.agtsupport.tr@dlh.de",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Swiss"
+      },
+      {
+        "code": "OS",
+        "name": "Austrian Airlines",
+        "phone": "0212 354 88 00",
+        "email": "lhg.agtsupport.tr@dlh.de",
+        "void_duration": "N/A",
+        "ceza_kodu": "EMD",
+        "invol_bilgileri": "N/A",
+        "notes": "Austrian"
+      },
+      {
+        "code": "XY",
+        "name": "Flynas",
+        "phone": "0212 231 3450",
+        "email": "GDS@nasaviation.com / istanbul@flynas.com",
+        "void_duration": "VOİDİ YOK",
+        "ceza_kodu": "XP",
+        "invol_bilgileri": "NO-SHOWDA HİÇ Bİ İADESİ YOK – 6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR.",
+        "notes": "NO-SHOWDA HİÇ Bİ İADESİ YOK – 6 SAATTEN FAZLA Bİ SAAT DEĞ VARSA ÜCRETSİZ 30 GÜN İLERİ GERİ DEĞİŞİKLİK / İADE ALIR. XP VE YR VERGILERI IADE EDILMEZ."
+      },
+      {
+        "code": "SABRE",
+        "name": "SABRE",
+        "phone": "0850 390 1910",
+        "email": "N/A",
+        "void_duration": "N/A",
+        "ceza_kodu": "SABRE",
+        "invol_bilgileri": "N/A",
+        "notes": "SABRE"
+      }
+    ];
+
+    // Native Inline SVG icons to avoid external CDN dependencies on icon libraries
     const Icons = {
-      Plane: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.9-.2-1.9.1-2.4.9l-1.1 1.9c-.4.7-.3 1.6.4 2.1l6 4.2-3.6 3.6-2.6-.9c-.7-.2-1.4 0-1.8.6L.4 21c-.3.5-.2 1.1.2 1.4.3.3.9.5 1.4.2l1.9-.9c.5-.3.8-1 .6-1.8l-.9-2.6 3.6-3.6 4.2 6c.5.7 1.3.8 2.1.4l1.9-1.1c.7-.5 1-1.5.9-2.4z"/>
-        </svg>
+      Plane: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3.5c-.5-.5-2.5 0-4 1.5L13.5 8.5 5.3 6.7c-.9-.2-1.8.3-2.1 1.2c-.3.9 0 1.9.8 2.4l5.6 3.6-1.5 1.5-3.5-.9c-.5-.1-1.1.1-1.4.5c-.3.4-.3 1 0 1.4l2.4 2.4c.4.3 1 .3 1.4 0c.4-.3.6-.9.5-1.4l-.9-3.5 1.5-1.5 3.6 5.6c.5.8 1.5 1.1 2.4.8c.9-.3 1.4-1.2 1.2-2.1Z"/></svg>
+      ),
+      Sun: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M20 12h2"/><path d="M2 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+      ),
+      Moon: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
       ),
       Search: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-        </svg>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className}><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
       ),
-      Phone: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-        </svg>
-      ),
-      Mail: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-        </svg>
-      ),
-      Clock: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>
-      ),
-      Info: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
-        </svg>
-      ),
-      X: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
-        </svg>
+      X: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       ),
       ChevronRight: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <path d="m9 18 6-6-6-6"/>
-        </svg>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m9 18 6-6-6-6"/></svg>
       ),
-      Copy: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/>
-        </svg>
+      Phone: ({ size = 20, className = "" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      ),
+      Mail: ({ size = 20, className = "" }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      ),
+      Clock: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+      ),
+      Info: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      ),
+      Copy: ({ size = 20 }) => (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
       ),
       Check: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      ),
-      Moon: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-        </svg>
-      ),
-      Sun: ({ size = 20, className = "" }) => (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-          <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
-        </svg>
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M20 6 9 17l-5-5"/></svg>
       )
     };
 
-    // --- KOPYALAMA BUTONU ---
     const CopyButton = ({ text }) => {
       const [copied, setCopied] = useState(false);
 
@@ -108,14 +1349,14 @@
           setCopied(true);
           setTimeout(() => setCopied(false), 2000);
         } catch (err) {
-          console.error('Kopyalama hatası:', err);
+          console.error('Failed to copy:', err);
         }
       };
 
       return (
         <button
           onClick={handleCopy}
-          className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 shrink-0"
+          className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 group/copy"
           title="Kopyala"
         >
           {copied ? <Icons.Check size={14} className="text-green-500" /> : <Icons.Copy size={14} />}
@@ -123,36 +1364,13 @@
       );
     };
 
-    // --- ANA UYGULAMA (APP) ---
     function App() {
-      const [airlines, setAirlines] = useState([]);
       const [searchTerm, setSearchTerm] = useState('');
       const [selectedAirline, setSelectedAirline] = useState(null);
-      const [isLoading, setIsLoading] = useState(true);
       const [isDarkMode, setIsDarkMode] = useState(() => {
-        if (typeof window !== 'undefined') {
-          const saved = localStorage.getItem('theme');
-          return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
-        }
-        return false;
+        const saved = localStorage.getItem('theme');
+        return saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
       });
-
-      // HTML dökümanı yüklenince airlines.json verisini dinamik olarak çek
-      useEffect(() => {
-        fetch('./airlines.json')
-          .then(response => {
-            if (!response.ok) throw new Error('Veri çekilemedi');
-            return response.json();
-          })
-          .then(data => {
-            setAirlines(data);
-            setIsLoading(false);
-          })
-          .catch(error => {
-            console.error('Veritabanı yükleme hatası:', error);
-            setIsLoading(false);
-          });
-      }, []);
 
       useEffect(() => {
         const root = document.documentElement;
@@ -167,24 +1385,26 @@
 
       const filteredAirlines = useMemo(() => {
         const term = searchTerm.toLowerCase().trim();
-        if (!term) return airlines;
-        return airlines.filter(
+        if (!term) return airlinesData;
+        return airlinesData.filter(
           (airline) =>
-            airline.name.toLowerCase().includes(term) ||
-            airline.code.toLowerCase().includes(term)
+            (airline?.name || '').toLowerCase().includes(term) ||
+            (airline?.code || '').toLowerCase().includes(term)
         );
-      }, [searchTerm, airlines]);
+      }, [searchTerm]);
 
       const renderMultiLine = (text) => {
         if (!text || text === 'N/A' || text === '-') {
           return <span className="text-slate-400 dark:text-slate-600">-</span>;
         }
+        
         const items = text.split('/').map(item => item.trim()).filter(Boolean);
+        
         return (
           <div className="space-y-2">
             {items.map((item, idx) => (
-              <div key={idx} className="flex items-center justify-between gap-3 bg-white dark:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-700/50">
-                <span className="text-sm font-semibold text-slate-700 dark:text-slate-300 break-all">{item}</span>
+              <div key={idx} className="flex items-center justify-between gap-2 group/item bg-white dark:bg-slate-800/50 p-2 rounded-xl border border-slate-100 dark:border-slate-750">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300 break-all">{item}</span>
                 <CopyButton text={item} />
               </div>
             ))}
@@ -194,208 +1414,229 @@
 
       return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans text-slate-900 dark:text-slate-100 transition-colors duration-300">
-          {/* Header */}
+          
+          {/* Header Section */}
           <header className="sticky top-0 z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                
                 <div className="flex items-center justify-between w-full md:w-auto">
                   <div className="flex items-center gap-3">
-                    <div className="bg-blue-600 p-2.5 rounded-xl text-white shadow-lg">
+                    <div className="bg-blue-600 p-2 rounded-xl text-white shadow-lg shadow-blue-200 dark:shadow-none">
                       <Icons.Plane size={24} />
                     </div>
                     <div>
-                      <h1 className="text-xl font-black tracking-tight text-slate-900 dark:text-white font-['Space_Grotesk']">Havayolu Bilgi Sistemi</h1>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest">İletişim & Void Kuralları</p>
+                      <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Havayolu Bilgi Sistemi</h1>
+                      <p className="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">İletişim & Void Kuralları</p>
                     </div>
                   </div>
                   
                   <button
                     onClick={() => setIsDarkMode(!isDarkMode)}
-                    className="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all cursor-pointer"
+                    className="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all"
                   >
                     {isDarkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
                   </button>
                 </div>
 
-                <div className="flex items-center gap-3 flex-1 lg:max-w-xl md:max-w-md w-full">
+                <div className="flex items-center gap-3 flex-1 max-w-md w-full">
                   <div className="relative flex-1">
-                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Icons.Search className="h-5 w-5 text-slate-400" />
                     </div>
                     <input
                       type="text"
-                      className="block w-full pl-11 pr-4 py-3 border border-slate-200 dark:border-slate-800 rounded-2xl leading-5 bg-slate-50 dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all shadow-inner"
+                      className="block w-full pl-10 pr-10 py-2.5 border border-slate-200 dark:border-slate-800 rounded-2xl leading-5 bg-slate-50 dark:bg-slate-800 placeholder-slate-400 dark:placeholder-slate-500 text-slate-900 dark:text-white focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-all"
                       placeholder="Havayolu adı veya ikili kod (örn: TK, Pegasus)..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                     />
+                    {searchTerm && (
+                      <button
+                        onClick={() => setSearchTerm('')}
+                        className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+                      >
+                        <Icons.X size={18} />
+                      </button>
+                    )}
                   </div>
                   
                   <button
                     onClick={() => setIsDarkMode(!isDarkMode)}
-                    className="hidden md:flex p-3 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all cursor-pointer"
+                    className="hidden md:flex p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-all"
+                    title={isDarkMode ? 'Aydınlık Mod' : 'Karanlık Mod'}
                   >
                     {isDarkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
                   </button>
                 </div>
+
               </div>
             </div>
           </header>
 
           <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {isLoading ? (
-              <div className="flex flex-col items-center justify-center py-40">
-                <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-slate-500 font-medium">Veritabanı yükleniyor...</p>
-              </div>
-            ) : (
-              <>
-                <div className="mb-6">
-                  <h2 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                    {filteredAirlines.length} Havayolu Bulundu
-                  </h2>
-                </div>
+            
+            {/* Real-time Results counter */}
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-widest">
+                {filteredAirlines.length} Havayolu Bulundu
+              </h2>
+            </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {filteredAirlines.map((airline) => (
-                    <div
-                      key={airline.code}
-                      onClick={() => setSelectedAirline(airline)}
-                      className="flex flex-col text-left bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl dark:hover:shadow-blue-900/10 hover:border-blue-200 dark:hover:border-blue-900/50 transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group"
-                    >
-                      <div className="flex items-start justify-between mb-4">
-                        <span className="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-black border border-blue-100 dark:border-blue-900/30 font-['Space_Grotesk']">
-                          {airline.code}
-                        </span>
-                        <Icons.ChevronRight className="text-slate-300 dark:text-slate-700 group-hover:text-blue-500 transition-colors" size={20} />
-                      </div>
-                      <h3 className="text-base font-bold text-slate-800 dark:text-slate-100 mb-4 line-clamp-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{airline.name}</h3>
-                      <div className="space-y-2.5 mt-auto">
-                        <div className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400">
-                          <Icons.Phone size={14} className="text-slate-400 dark:text-slate-600 shrink-0" />
-                          <span className="truncate">{airline.phone || 'N/A'}</span>
-                        </div>
-                        <div className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400">
-                          <Icons.Mail size={14} className="text-slate-400 dark:text-slate-600 shrink-0" />
-                          <span className="truncate">{airline.email || 'N/A'}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {filteredAirlines.length === 0 && (
-                  <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-8">
-                    <div className="bg-slate-100 dark:bg-slate-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <Icons.Search size={32} className="text-slate-400 dark:text-slate-600" />
-                    </div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white">Havayolu bulunamadı</h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">Lütfen farklı harfler veya kodlar ile tekrar arayın.</p>
+            {/* Airlines Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+              {filteredAirlines.map((airline) => (
+                <button
+                  key={airline.code}
+                  onClick={() => setSelectedAirline(airline)}
+                  className="flex flex-col text-left bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md dark:hover:shadow-blue-900/10 hover:border-blue-200 dark:hover:border-blue-900/50 transition-all group duration-200 transform hover:-translate-y-1"
+                >
+                  <div className="flex items-start justify-between mb-4 w-full">
+                    <span className="inline-flex items-center justify-center px-3 py-1 rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 text-sm font-bold border border-blue-100 dark:border-blue-900/30">
+                      {airline.code}
+                    </span>
+                    <Icons.ChevronRight className="text-slate-300 dark:text-slate-700 group-hover:text-blue-400 transition-colors" size={20} />
                   </div>
-                )}
-              </>
+                  <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-2 line-clamp-1">{airline.name}</h3>
+                  <div className="space-y-2 mt-auto w-full">
+                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                      <Icons.Phone size={14} className="text-slate-400 dark:text-slate-600 flex-shrink-0" />
+                      <span className="truncate">{airline.phone || 'N/A'}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+                      <Icons.Mail size={14} className="text-slate-400 dark:text-slate-600 flex-shrink-0" />
+                      <span className="truncate">{airline.email || 'N/A'}</span>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Empty State screen */}
+            {filteredAirlines.length === 0 && (
+              <div className="text-center py-20 bg-white/50 dark:bg-slate-900/50 rounded-3xl border border-slate-200/60 dark:border-slate-800/60 p-8 shadow-sm">
+                <div className="bg-slate-100 dark:bg-slate-900 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Icons.Search size={32} className="text-slate-400 dark:text-slate-600" />
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 dark:text-white">Havayolu bulunamadı</h3>
+                <p className="text-slate-500 dark:text-slate-400 mt-1">Lütfen farklı harfler veya kodlar ile tekrar arayın.</p>
+              </div>
             )}
           </main>
 
-          {/* Kolay ve Hızlı Detay Modülü */}
+          {/* Modal Overlay / Details Popup card */}
           {selectedAirline && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-              <div 
-                onClick={() => setSelectedAirline(null)}
-                className="fixed inset-0 bg-slate-950/65 backdrop-blur-sm transition-opacity"
-              />
-              
-              <div className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-800 flex flex-col max-h-[90vh]">
-                <div className="p-6 md:p-8 overflow-y-auto">
-                  <button
-                    onClick={() => setSelectedAirline(null)}
-                    className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
-                  >
-                    <Icons.X size={20} />
-                  </button>
+            <div className="fixed inset-0 z-50 overflow-y-auto">
+              <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                
+                {/* Backdrop shadow overlay */}
+                <div 
+                  onClick={() => setSelectedAirline(null)}
+                  className="fixed inset-0 bg-slate-900/60 dark:bg-black/80 backdrop-blur-sm transition-opacity" 
+                />
 
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="bg-blue-600 text-white px-4 py-2 rounded-2xl text-2xl font-black font-['Space_Grotesk']">
-                      {selectedAirline.code}
-                    </div>
-                    <div>
-                      <h2 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white leading-tight font-['Space_Grotesk']">
-                        {selectedAirline.name}
-                      </h2>
-                      <p className="text-blue-600 dark:text-blue-400 font-bold tracking-widest uppercase text-[10px] mt-1">Havayolu Detayları</p>
-                    </div>
-                  </div>
+                {/* Center elements */}
+                <span className="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <div className="space-y-6">
-                      <div className="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
-                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 font-['Space_Grotesk']">TELEFON NUMARASI</p>
-                        {renderMultiLine(selectedAirline.phone)}
+                {/* Modal Container */}
+                <div className="inline-block align-bottom bg-white dark:bg-slate-900 rounded-3xl text-left shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-3xl sm:w-full border border-slate-200 dark:border-slate-850 overflow-hidden">
+                  
+                  <div className="relative p-6 md:p-8 max-h-[85vh] overflow-y-auto">
+                    
+                    {/* Top closing cross button */}
+                    <button
+                      onClick={() => setSelectedAirline(null)}
+                      className="absolute top-6 right-6 p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 focus:outline-none"
+                    >
+                      <Icons.X size={24} />
+                    </button>
+
+                    {/* Logo and title header */}
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className="bg-blue-600 text-white px-4 py-2 rounded-2xl text-2xl font-black shadow-lg shadow-blue-200 dark:shadow-none">
+                        {selectedAirline.code}
                       </div>
-                      <div className="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
-                        <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 font-['Space_Grotesk']">E-POSTA / MAIL</p>
-                        {renderMultiLine(selectedAirline.email)}
+                      <div>
+                        <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-tight">
+                          {selectedAirline.name}
+                        </h2>
+                        <p className="text-blue-600 dark:text-blue-400 font-semibold tracking-wide uppercase text-xs mt-1">Havayolu Detayları</p>
                       </div>
                     </div>
 
+                    {/* Content Columns info space */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                      <div className="space-y-6">
+                        <div className="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
+                          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">TEL</p>
+                          {renderMultiLine(selectedAirline.phone)}
+                        </div>
+                        <div className="bg-slate-50 dark:bg-slate-800/40 p-5 rounded-2xl border border-slate-100 dark:border-slate-800">
+                          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3">E-POSTA / Mail</p>
+                          {renderMultiLine(selectedAirline.email)}
+                        </div>
+                      </div>
+
+                      <div className="space-y-4">
+                        <div className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">İKİLİ KOD</p>
+                          <p className="text-lg font-bold text-slate-800 dark:text-slate-200">{selectedAirline.code}</p>
+                        </div>
+                        <div className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">CEZA KODU</p>
+                          <p className="text-lg font-bold text-slate-800 dark:text-slate-200">{selectedAirline.ceza_kodu || '-'}</p>
+                        </div>
+                        <div className="bg-amber-50 dark:bg-amber-900/10 p-5 rounded-2xl border border-amber-100 dark:border-amber-900/20">
+                          <div className="flex items-center gap-2 text-amber-700 dark:text-amber-550 mb-2">
+                            <Icons.Clock size={16} />
+                            <span className="font-bold text-[10px] uppercase tracking-wider">VOID SÜRESİ</span>
+                          </div>
+                          <p className="text-slate-850 dark:text-slate-200 font-medium leading-relaxed text-sm">
+                            {selectedAirline.void_duration || '-'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom notes information */}
                     <div className="space-y-4">
-                      <div className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                        <div>
-                          <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 font-['Space_Grotesk']">İKİLİ KOD</p>
-                          <p className="text-base font-extrabold text-slate-800 dark:text-slate-200">{selectedAirline.code}</p>
+                      <div className="bg-blue-50 dark:bg-blue-900/10 p-6 rounded-2xl border border-blue-100 dark:border-blue-900/20">
+                        <div className="flex items-center gap-2 text-blue-700 dark:text-blue-400 mb-3">
+                          <Icons.Info size={20} />
+                          <span className="font-bold text-sm uppercase tracking-wider">INVOL BİLGİLERİ / NOT</span>
                         </div>
-                        <CopyButton text={selectedAirline.code} />
-                      </div>
-                      <div className="bg-slate-50 dark:bg-slate-800/40 p-4 rounded-2xl border border-slate-100 dark:border-slate-800 flex justify-between items-center">
-                        <div>
-                          <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1 font-['Space_Grotesk']">CEZA KODU</p>
-                          <p className="text-base font-extrabold text-slate-800 dark:text-slate-200">{selectedAirline.ceza_kodu || '-'}</p>
+                        <div className="space-y-4">
+                          {selectedAirline.invol_bilgileri && (
+                            <div>
+                              <p className="text-[10px] font-bold text-blue-400 dark:text-blue-500 uppercase tracking-widest mb-1">INVOL BİLGİLERİ</p>
+                              <p className="text-slate-800 dark:text-slate-200 font-medium leading-relaxed">{selectedAirline.invol_bilgileri}</p>
+                            </div>
+                          )}
+                          {selectedAirline.notes && (
+                            <div>
+                              <p className="text-[10px] font-bold text-blue-400 dark:text-blue-500 uppercase tracking-widest mb-1">NOT</p>
+                              <p className="text-slate-800 dark:text-slate-200 font-medium leading-relaxed">{selectedAirline.notes}</p>
+                            </div>
+                          )}
+                          {!selectedAirline.invol_bilgileri && !selectedAirline.notes && (
+                            <p className="text-slate-400 dark:text-slate-500 italic">Bilgi bulunmamaktadır.</p>
+                          )}
                         </div>
-                        {selectedAirline.ceza_kodu && selectedAirline.ceza_kodu !== '-' && <CopyButton text={selectedAirline.ceza_kodu} />}
-                      </div>
-                      <div className="bg-amber-50 dark:bg-amber-900/10 p-5 rounded-2xl border border-amber-100 dark:border-amber-900/20">
-                        <div className="flex items-center gap-2 text-amber-700 dark:text-amber-500 mb-2">
-                          <Icons.Clock size={16} />
-                          <span className="font-extrabold text-[10px] uppercase tracking-widest font-['Space_Grotesk']">VOID SÜRESİ</span>
-                        </div>
-                        <p className="text-slate-800 dark:text-slate-200 font-bold leading-relaxed text-sm">
-                          {selectedAirline.void_duration || '-'}
-                        </p>
                       </div>
                     </div>
+
                   </div>
 
-                  <div className="space-y-4">
-                    <div className="bg-blue-50 dark:bg-blue-900/10 p-6 rounded-2xl border border-blue-100 dark:border-blue-900/20">
-                      <div className="flex items-center gap-2 text-blue-700 dark:text-blue-400 mb-4 font-['Space_Grotesk']">
-                        <Icons.Info size={20} />
-                        <span className="font-black text-xs uppercase tracking-widest">INVOL BİLGİLERİ & ACENTE NOTU</span>
-                      </div>
-                      <div className="space-y-4 text-sm divide-y divide-blue-100/30 dark:divide-blue-900/20">
-                        {selectedAirline.invol_bilgileri && selectedAirline.invol_bilgileri !== 'N/A' ? (
-                          <div className="pt-1">
-                            <p className="text-[10px] font-black text-blue-400 dark:text-blue-500 uppercase tracking-widest mb-1 font-['Space_Grotesk']">INVOL BİLGİSİ</p>
-                            <p className="text-slate-800 dark:text-slate-200 font-medium leading-relaxed">{selectedAirline.invol_bilgileri}</p>
-                          </div>
-                        ) : null}
-                        {selectedAirline.notes ? (
-                          <div className="pt-3">
-                            <p className="text-[10px] font-black text-blue-400 dark:text-blue-500 uppercase tracking-widest mb-1 font-['Space_Grotesk']">NOTLAR</p>
-                            <p className="text-slate-800 dark:text-slate-200 font-medium leading-relaxed">{selectedAirline.notes}</p>
-                          </div>
-                        ) : null}
-                      </div>
-                    </div>
+                  {/* Modal bottom closing actions */}
+                  <div className="p-6 bg-slate-50 dark:bg-slate-800/40 border-t border-slate-100 dark:border-slate-800 flex justify-end">
+                    <button
+                      onClick={() => setSelectedAirline(null)}
+                      className="px-8 py-3 bg-slate-900 dark:bg-blue-600 text-white font-bold rounded-2xl hover:bg-slate-800 dark:hover:bg-blue-700 transition-all shadow-lg shadow-slate-200 dark:shadow-none focus:outline-none"
+                    >
+                      Kapat
+                    </button>
                   </div>
-                </div>
 
-                <div className="mt-auto p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-850 flex justify-end">
-                  <button
-                    onClick={() => setSelectedAirline(null)}
-                    className="px-8 py-3 bg-slate-900 dark:bg-blue-600 text-white font-bold rounded-2xl hover:bg-slate-800 dark:hover:bg-blue-700 transition-all cursor-pointer shadow-lg active:scale-95"
-                  >
-                    Kapat
-                  </button>
                 </div>
               </div>
             </div>
